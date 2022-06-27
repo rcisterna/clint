@@ -22,11 +22,6 @@ build-backend = "poetry.core.masonry.api"
 profile = "black"
 src_paths = ["clint", "test"]
 
-[tool.pylint.MAIN]
-load-plugins = [
-    "pylint.extensions.docparams"
-]
-
 [tool.pylint.format]
 max-line-length = "88"
 
