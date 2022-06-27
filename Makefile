@@ -19,17 +19,29 @@ check: check-isort check-black check-pylint ## Check current status
 	@printf "$(FG_GREEN)Everything is good.$(FG_CLEAN)\n"
 
 .PHONY: check-isort
-check-isort: ## Check isort
+check-isort:
 	@poetry run isort --check --color $(modules)
 
 .PHONY: check-black
-check-black: ## Check black
+check-black:
 	@poetry run black --check $(modules)
 
 .PHONY: check-pylint
-check-pylint: ## Check pylint
+check-pylint:
 	@poetry run pylint --output-format=colorized $(modules)
 
 .PHONY: test
 test: ## Run test suite
 	@poetry run pytest --cov=clint
+
+.PHONY: isort
+isort:  ## Run isort over staged files
+	@git diff --staged --name-only | grep .py | xargs poetry run isort
+
+.PHONY: black
+black:  ## Run black over staged files
+	@git diff --staged --name-only | grep .py | xargs poetry run black
+
+.PHONY: pylint
+pylint:  ## Run pylint over staged files
+	@git diff --staged --name-only | grep .py | xargs poetry run pylint --output-format=colorized
