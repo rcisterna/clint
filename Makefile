@@ -16,7 +16,7 @@ help:
 
 .PHONY: check
 check: check-isort check-black check-pylint ## Check current status
-	@printf "$(FG_GREEN)Everything is good.$(FG_CLEAN)\n"
+	@printf "$(FG_GREEN)Everything is good.$(FG_CLEAR)\n"
 
 .PHONY: check-isort
 check-isort:
@@ -32,7 +32,10 @@ check-pylint:
 
 .PHONY: test
 test: ## Run test suite
-	@poetry run pytest --cov=clint
+	@poetry run coverage erase
+	@poetry run coverage run -m pytest
+	@printf "\n$(FG_BLUE)Coverage report:$(FG_CLEAR)\n\n"
+	@poetry run coverage report -m
 
 .PHONY: isort
 isort:  ## Run isort over staged files
