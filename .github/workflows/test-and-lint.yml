@@ -41,4 +41,4 @@ jobs:
     - name: Check isort, black and pylint
       run: make check
     - name: Run tests
-      run: make test
+      run: make tests

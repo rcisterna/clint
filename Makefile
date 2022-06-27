@@ -30,8 +30,8 @@ check-black:
 check-pylint:
 	@poetry run pylint --output-format=colorized $(modules)
 
-.PHONY: test
-test: ## Run test suite
+.PHONY: tests
+tests: ## Run test suite
 	@poetry run coverage erase
 	@poetry run coverage run -m pytest
 	@printf "\n$(FG_BLUE)Coverage report:$(FG_CLEAR)\n\n"
