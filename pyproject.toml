@@ -5,11 +5,21 @@ description = "Conventional Commits Linter"
 authors = ["Ricardo Cisterna <r.cisternasantos@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.7.2,<4.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.1.2"
+black = "^22.3.0"
+isort = "^5.10.1"
+pylint = "^2.14.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+src_paths = ["clint", "test"]
+
+[tool.pylint.format]
+max-line-length = "88"
