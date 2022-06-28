@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""
-Conventional commits validator module
-"""
+"""Conventional commits validator module."""
 
 import re
 import sys
