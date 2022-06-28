@@ -16,23 +16,35 @@ help:
 
 .PHONY: check
 check: check-isort check-docs check-black check-pylint ## Check current status
-	@printf "$(FG_GREEN)Everything is good.$(FG_CLEAR)\n"
+	@true
 
 .PHONY: check-isort
 check-isort:
-	@poetry run isort --check --color $(modules)
+	@printf "$(FG_BLUE)Running isort:$(FG_CLEAR)\n"
+	@poetry run isort --check --color $(modules) \
+	&& printf "$(FG_GREEN)isort found no issues.$(FG_CLEAR)\n\n" \
+	|| (printf "$(FG_RED)Issues below were found by isort.$(FG_CLEAR)\n\n" && false)
 
 .PHONY: check-docs
 check-docs:
-	@poetry run pydocstyle $(modules)
+	@printf "$(FG_BLUE)Running pydocstyle:$(FG_CLEAR)\n"
+	@poetry run pydocstyle $(modules) \
+	&& printf "$(FG_GREEN)pydocstyle found no issues.$(FG_CLEAR)\n\n" \
+	|| (printf "$(FG_RED)Issues below were found by pydocstyle.$(FG_CLEAR)\n\n" && false)
 
 .PHONY: check-black
 check-black:
-	@poetry run black --check $(modules)
+	@printf "$(FG_BLUE)Running black:$(FG_CLEAR)\n"
+	@poetry run black --check $(modules) \
+	&& printf "$(FG_GREEN)black found no issues.$(FG_CLEAR)\n\n" \
+	|| (printf "$(FG_RED)Issues below were found by black.$(FG_CLEAR)\n\n" && false)
 
 .PHONY: check-pylint
 check-pylint:
-	@poetry run pylint --output-format=colorized $(modules)
+	@printf "$(FG_BLUE)Running pylint:$(FG_CLEAR)\n"
+	@poetry run pylint --output-format=colorized --score=n $(modules) \
+	&& printf "$(FG_GREEN)pylint found no issues.$(FG_CLEAR)\n\n" \
+	|| (printf "$(FG_RED)Issues below were found by pylint.$(FG_CLEAR)\n\n" && false)
 
 .PHONY: tests
 tests: ## Run test suite
