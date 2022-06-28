@@ -1,6 +1,4 @@
-"""
-Configuration for general tests.
-"""
+"""Configuration for general tests."""
 import pytest
 from pytest_mock import MockerFixture
 
