@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 import pytest
 from faker import Faker
 
-from clint.validator import VALID_COMMIT_TYPES, conventional_commit_validator
+from clint.old_validator import VALID_COMMIT_TYPES, conventional_commit_validator
 
 
 @pytest.mark.usefixtures("mock_cc_get_commit_msg", "mock_sys_exit")
