@@ -5,19 +5,7 @@ import re
 import sys
 from typing import List
 
-VALID_COMMIT_TYPES = {
-    "build",
-    "chore",
-    "ci",
-    "docs",
-    "feat",
-    "fix",
-    "perf",
-    "refactor",
-    "revert",
-    "style",
-    "test",
-}
+from .validator import Subject
 
 PATTERN_COMMENTS = re.compile(r"^#.*\n?", flags=re.MULTILINE)
 PATTERN_TRAILING_LINES = re.compile(r"\n*$")
@@ -79,7 +67,7 @@ def process_header(line: str, errors: List[str]) -> None:
     if not commit_type.islower():
         errors.append(f"Type '{commit_type}' is not lowercase")
         return
-    if commit_type not in VALID_COMMIT_TYPES:
+    if commit_type not in Subject.VALID_COMMIT_TYPES:
         errors.append(f"Type '{commit_type}' is not a valid type")
         return
 
