@@ -1,5 +1,5 @@
 """Paragraph validator."""
-from .exceptions import ValidatorException
+from .exceptions import GenerationException, ValidationException
 from .footer import Footer
 
 
@@ -38,7 +38,7 @@ class Paragraph:
         for index, line in enumerate(self.text.split("\n")):
             try:
                 footer = Footer.generate(line)
-            except ValidatorException:
+            except GenerationException:
                 self.is_pure = False if index > 0 else self.is_pure
             else:
                 footers.append(footer)
@@ -62,11 +62,11 @@ class Paragraph:
         # pylint: disable=duplicate-code
         self.__generate_footers()
         if "\n" in self.text and not self.footers:
-            raise ValidatorException("Paragraph cannot have new lines.")
+            raise ValidationException("Paragraph cannot have new lines.")
         if not self.is_pure:
-            raise ValidatorException("Paragraph is a mix of footers and common lines.")
+            raise ValidationException("Paragraph is a mix of footers and common lines.")
         if not self.text:
-            raise ValidatorException("Paragraph cannot be empty.")
+            raise ValidationException("Paragraph cannot be empty.")
         for footer in self.footers:
             footer.validate()
         return True

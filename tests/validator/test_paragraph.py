@@ -2,7 +2,7 @@
 # pylint: disable=too-many-arguments
 import pytest
 
-from clint.validator import Paragraph, ValidatorException
+from clint.validator import Paragraph, ValidationException
 
 from .conftest import INVALID_DATA, VALID_DATA
 
@@ -39,5 +39,5 @@ class TestParagraphValidate:
     def test_invalid_text(self, text, paragraph):
         """Test that invalid text raises an exception."""
         paragraph.text = text
-        with pytest.raises(ValidatorException):
+        with pytest.raises(ValidationException):
             paragraph.validate()

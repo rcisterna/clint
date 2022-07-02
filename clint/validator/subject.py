@@ -2,7 +2,7 @@
 import re
 from typing import Optional
 
-from .exceptions import ValidatorException
+from .exceptions import GenerationException, ValidationException
 
 
 class Subject:
@@ -72,7 +72,7 @@ class Subject:
         """
         match = Subject.PATTERN.match(msg)
         if match is None:
-            raise ValidatorException(f"Message '{msg}' did not match the pattern.")
+            raise GenerationException(f"Message '{msg}' did not match the pattern.")
         groups = match.groupdict()
         return Subject(
             groups["type"],
@@ -98,21 +98,21 @@ class Subject:
         """
         # pylint: disable=duplicate-code
         if not self.type:
-            raise ValidatorException("Type cannot be empty.")
+            raise ValidationException("Type cannot be empty.")
         if not self.type.islower():
-            raise ValidatorException(f"Type '{self.type}' is not lowercase.")
+            raise ValidationException(f"Type '{self.type}' is not lowercase.")
         if self.type not in self.VALID_COMMIT_TYPES:
-            raise ValidatorException(f"Type '{self.type}' is not valid.")
+            raise ValidationException(f"Type '{self.type}' is not valid.")
         if self.scope and not self.scope.startswith("("):
-            raise ValidatorException(f"Scope '{self.type}' should starts with '('.")
+            raise ValidationException(f"Scope '{self.type}' should starts with '('.")
         if self.scope and not self.scope.endswith(")"):
-            raise ValidatorException(f"Scope '{self.type}' should ends with ')'.")
+            raise ValidationException(f"Scope '{self.type}' should ends with ')'.")
         if self.scope and len(self.scope) == 2:
-            raise ValidatorException(f"Scope '{self.type}' cannot be empty.")
+            raise ValidationException(f"Scope '{self.type}' cannot be empty.")
         if not self.separator:
-            raise ValidatorException("Separator cannot be empty.")
+            raise ValidationException("Separator cannot be empty.")
         if self.separator != ": ":
-            raise ValidatorException(f"Separator '{self.separator}' is not valid.")
+            raise ValidationException(f"Separator '{self.separator}' is not valid.")
         if not self.description:
-            raise ValidatorException("Description cannot be empty.")
+            raise ValidationException("Description cannot be empty.")
         return True

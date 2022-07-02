@@ -2,7 +2,7 @@
 import re
 import string
 
-from .exceptions import ValidatorException
+from .exceptions import GenerationException, ValidationException
 
 
 class Footer:
@@ -42,7 +42,7 @@ class Footer:
         """
         match = Footer.PATTERN.match(msg)
         if match is None:
-            raise ValidatorException(f"Message '{msg}' did not match the pattern.")
+            raise GenerationException(f"Message '{msg}' did not match the pattern.")
         groups = match.groupdict()
         return Footer(
             token=groups["token"],
@@ -66,17 +66,17 @@ class Footer:
         """
         # pylint: disable=duplicate-code
         if not self.token:
-            raise ValidatorException("Token cannot be empty.")
+            raise ValidationException("Token cannot be empty.")
         for whitespace in string.whitespace:
             if self.token != "BREAKING CHANGE" and whitespace in self.token:
-                raise ValidatorException(
+                raise ValidationException(
                     f"Token '{self.token}' cannot have '{whitespace}' char."
                 )
         if not self.separator:
-            raise ValidatorException("Separator cannot be empty.")
+            raise ValidationException("Separator cannot be empty.")
         valid_separators = [": ", " #"]
         if self.separator not in valid_separators:
-            raise ValidatorException(f"Separator '{self.separator}' is not valid.")
+            raise ValidationException(f"Separator '{self.separator}' is not valid.")
         if not self.description:
-            raise ValidatorException("Description cannot be empty.")
+            raise ValidationException("Description cannot be empty.")
         return True

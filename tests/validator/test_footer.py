@@ -2,7 +2,7 @@
 # pylint: disable=too-many-arguments
 import pytest
 
-from clint.validator import Footer, ValidatorException
+from clint.validator import Footer, GenerationException, ValidationException
 
 from .conftest import INVALID_DATA, VALID_DATA
 
@@ -23,7 +23,7 @@ class TestFooterGenerate:
 
     def test_empty_generation(self):
         """Test that empty message generation raises an exception."""
-        with pytest.raises(ValidatorException):
+        with pytest.raises(GenerationException):
             Footer.generate(msg="")
 
 
@@ -45,7 +45,7 @@ class TestFooterValidate:
         footer.token = token
         footer.separator = VALID_DATA["footer"]["separators"][0]
         footer.description = sentence
-        with pytest.raises(ValidatorException):
+        with pytest.raises(ValidationException):
             footer.validate()
 
     @pytest.mark.parametrize("separator", INVALID_DATA["footer"]["separators"])
@@ -54,7 +54,7 @@ class TestFooterValidate:
         footer.token = VALID_DATA["footer"]["tokens"][0]
         footer.separator = separator
         footer.description = sentence
-        with pytest.raises(ValidatorException):
+        with pytest.raises(ValidationException):
             footer.validate()
 
     @pytest.mark.parametrize("description", INVALID_DATA["footer"]["descriptions"])
@@ -63,5 +63,5 @@ class TestFooterValidate:
         footer.token = VALID_DATA["footer"]["tokens"][0]
         footer.separator = VALID_DATA["footer"]["separators"][0]
         footer.description = description
-        with pytest.raises(ValidatorException):
+        with pytest.raises(ValidationException):
             footer.validate()
