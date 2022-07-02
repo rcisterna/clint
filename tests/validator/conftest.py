@@ -1,4 +1,6 @@
 """Configuration for validator tests."""
+import string
+
 import pytest
 from faker import Faker
 from pytest_mock import MockerFixture
@@ -6,6 +8,8 @@ from pytest_mock import MockerFixture
 from clint.validator import Commit, Footer, Paragraph, Subject
 
 faker = Faker()
+
+WHITESPACES = [w for w in string.whitespace if w != " "]
 
 VALID_DATA = {
     "subject": {
@@ -43,16 +47,22 @@ VALID_DATA = {
 
 INVALID_DATA = {
     "subject": {
-        "types": ["", "tets", "foo", "Chore"],
+        "types": ["", "tets", "foo", "Chore", "\nfeat"],
         "scopes": ["[scope]", "scope", "(scope]", "()"],
-        "separators": ["", ":\t", ":  "],
-        "descriptions": [""],
+        "separators": ["", ":  "] + [f":{sep}" for sep in WHITESPACES],
+        "descriptions": [
+            "",
+            f"{faker.sentence()}\n{faker.sentence()}",
+            f"{faker.sentence()}\n",
+        ],
     },
     "body": {
         "texts": [
             "",
             f"{faker.sentence()}\n{faker.sentence()}\n{faker.sentence()}",
             f"{faker.paragraph(10)}\n{faker.paragraph(10)}",
+            f"{faker.paragraph(10)}\n",
+            f"\n{faker.paragraph(10)}",
             f"impure-1: {faker.sentence()}\n"
             + f"{faker.sentence()}\n"
             + f"impure-2 #{faker.sentence()}",
@@ -60,7 +70,9 @@ INVALID_DATA = {
     },
     "footer": {
         "tokens": ["", "token with space"],
-        "separators": ["", ":\t", "\t#"],
+        "separators": ["", ":  ", "  #"]
+        + [f":{sep}" for sep in WHITESPACES]
+        + [f"{sep}#" for sep in WHITESPACES],
         "descriptions": [""],
     },
 }

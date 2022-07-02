@@ -115,4 +115,6 @@ class Subject:
             raise ValidationException(f"Separator '{self.separator}' is not valid.")
         if not self.description:
             raise ValidationException("Description cannot be empty.")
+        if "\n" in self.description:
+            raise ValidationException("Description cannot have new lines.")
         return True
