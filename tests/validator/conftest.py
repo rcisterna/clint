@@ -2,7 +2,7 @@
 import pytest
 from faker import Faker
 
-from clint.validator import Subject
+from clint.validator import Footer, Paragraph, Subject
 
 faker = Faker()
 
@@ -21,21 +21,20 @@ VALID_DATA = {
     },
     "body": {
         "texts": [
-            "",
+            f"{faker.paragraph(10)}",
             f"{faker.paragraph(20)}",
-            f"{faker.sentence()}\n{faker.sentence()}\n{faker.sentence()}",
-            f"{faker.paragraph(10)}\n{faker.paragraph(10)}",
+            f"token-1: {faker.sentence()}\ntoken-2 #{faker.sentence()}",
         ]
     },
     "footer": {
         "tokens": [
             "token",
-            "composed-token",
-            "Token",
+            "dashed-token",
+            "CamelToken",
+            "Camel-Dash-Token",
+            "numbered-token-2",
             "BREAKING CHANGE",
             "BREAKING-CHANGE",
-            "Dashed-token",
-            "Numbered-token-2",
         ],
         "separators": [": ", " #"],
     },
@@ -49,11 +48,19 @@ INVALID_DATA = {
         "descriptions": [""],
     },
     "body": {
-        "texts": [],
+        "texts": [
+            "",
+            f"{faker.sentence()}\n{faker.sentence()}\n{faker.sentence()}",
+            f"{faker.paragraph(10)}\n{faker.paragraph(10)}",
+            f"impure-1: {faker.sentence()}\n"
+            + f"{faker.sentence()}\n"
+            + f"impure-2 #{faker.sentence()}",
+        ],
     },
     "footer": {
-        "tokens": ["token with space"],
-        "separators": [":\t", "\t#"],
+        "tokens": ["", "token with space"],
+        "separators": ["", ":\t", "\t#"],
+        "descriptions": [""],
     },
 }
 
@@ -62,3 +69,15 @@ INVALID_DATA = {
 def subject() -> Subject:
     """Fixture to create dummy subject."""
     return Subject(c_type="", scope="", breaking="", separator="", description="")
+
+
+@pytest.fixture
+def footer() -> Footer:
+    """Fixture to create dummy footer."""
+    return Footer(token="", separator="", description="")
+
+
+@pytest.fixture
+def paragraph() -> Paragraph:
+    """Fixture to create dummy paragraph."""
+    return Paragraph(text="")

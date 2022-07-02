@@ -96,6 +96,7 @@ class Subject:
         ValidatorException
             If any attribute is not valid.
         """
+        # pylint: disable=duplicate-code
         if not self.type:
             raise ValidatorException("Type cannot be empty.")
         if not self.type.islower():
