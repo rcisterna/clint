@@ -1,7 +1,8 @@
-# CLint: Conventional commits linter
+<p align="center">
+    English - [Spanish](README.es.md)
+</p>
 
-[![en](https://img.shields.io/badge/lang-en-blue.svg)](README.md)
-[![es](https://img.shields.io/badge/lang-es-green.svg)](README.es.md)
+# CLint: Conventional commits linter
 
 `CLint` is a command line tool that allows you to validate messages related to git commits in different ways, ensuring
 that the message is [Conventional Commits compliant](https://www.conventionalcommits.org/en/v1.0.0/#specification).
