@@ -1,5 +1,5 @@
 <p align="center">
-    English - [Spanish](README.es.md)
+    English - <a href="README.es.md">Spanish</a>
 </p>
 
 # CLint: Conventional commits linter
