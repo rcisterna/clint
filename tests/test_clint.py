@@ -1,6 +1,4 @@
-"""
-Suite for generic test of CLint package.
-"""
+"""Test suite for generic test of CLint package."""
 from clint import __version__
 
 
