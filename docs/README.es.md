@@ -50,3 +50,7 @@ excelente [commitlint](https://github.com/conventional-changelog/commitlint). La
 con [herramientas similares](https://www.conventionalcommits.org/en/about/#tooling-for-conventional-commits),
 es que ellas están basadas sobre `Node.js`, y por tanto están orientadas a desarrolladores `Javascript`. Si no es tu
 caso, te verás obligado a instalar `Node.js` sólo para utilizar esas herramientas.
+
+## Licencia
+
+`CLint` se distribuye bajo la [licencia GPL v3](../COPYING).

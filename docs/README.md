@@ -49,3 +49,7 @@ great [commitlint](https://github.com/conventional-changelog/commitlint). The di
 with [similar tools](https://www.conventionalcommits.org/en/about/#tooling-for-conventional-commits) is that those are
 built over `Node.js`, so they are focused on `Javascript` developers. If you are not, you will be forced to
 install `Node.js` anyway in order to use those tools.
+
+## License
+
+`CLint` is distributed under the [GPL v3 license](../COPYING).
