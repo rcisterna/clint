@@ -3,7 +3,7 @@
 [![en](https://img.shields.io/badge/lang-en-blue.svg)](README.md)
 [![es](https://img.shields.io/badge/lang-es-green.svg)](README.es.md)
 
-`CLint` is a command line tool that allows to validate messages related to git commits in different ways, ensuring
+`CLint` is a command line tool that allows you to validate messages related to git commits in different ways, ensuring
 that the message is [Conventional Commits compliant](https://www.conventionalcommits.org/en/v1.0.0/#specification).
 
 ## Technologies
@@ -39,11 +39,13 @@ Validation error: Type 'feta' is not valid.
 ## Project status
 
 `CLint` is currently under active development. The goal is to achieve at least the [planned features](#planned-features)
-, and then continue maintaining the code, making it compatible with future Python and libraries versions.
+, and then continue maintaining the code, making it compatible with future versions of Python and the libraries used in
+the project.
 
 ## Source
 
 `CLint` tries to be what other tools already are, like the
 great [commitlint](https://github.com/conventional-changelog/commitlint). The difference
-with [existing tools](https://www.conventionalcommits.org/en/about/#tooling-for-conventional-commits) is that the ones
-that made similar things are built over Node.js, and they are focused on js developers.
+with [similar tools](https://www.conventionalcommits.org/en/about/#tooling-for-conventional-commits) is that those are
+built over `Node.js`, so they are focused on `Javascript` developers. If you are not, you will be forced to
+install `Node.js` anyway in order to use those tools.

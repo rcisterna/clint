@@ -45,7 +45,8 @@ con futuras versiones de Python y de las bibliotecas que utiliza.
 
 ## Inspiración
 
-`CLint` intenta lograr ser lo que ya son otras herramientas similares, como por ejemplo el
+`CLint` intenta lograr ser lo que ya son otras herramientas similares, como el
 excelente [commitlint](https://github.com/conventional-changelog/commitlint). La diferencia
-con [las herramientas que ya existen](https://www.conventionalcommits.org/en/about/#tooling-for-conventional-commits),
-es que todas ellas están basadas en Node.js, y están orientadas a ser utilizadas en desarrollos js.
+con [herramientas similares](https://www.conventionalcommits.org/en/about/#tooling-for-conventional-commits),
+es que ellas están basadas sobre `Node.js`, y por tanto están orientadas a desarrolladores `Javascript`. Si no es tu
+caso, te verás obligado a instalar `Node.js` sólo para utilizar esas herramientas.
