@@ -2,7 +2,17 @@
 name = "clint"
 version = "0.1.0"
 description = "Conventional Commits Linter"
+license = "GPL-3.0-or-later"
 authors = ["Ricardo Cisterna <r.cisternasantos@gmail.com>"]
+readme = "docs/README.md"
+repository = "https://github.com/rcisterna/clint"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Topic :: Software Development :: Version Control :: Git"
+]
 
 [tool.poetry.dependencies]
 python = ">=3.7.2,<4.0"
