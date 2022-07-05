@@ -28,6 +28,7 @@ pytest-mock = "^3.8.1"
 Faker = "^13.14.0"
 pydocstyle = {extras = ["toml"], version = "^6.1.1"}
 bpython = "^0.22.1"
+toml = "^0.10.2"
 
 [tool.poetry.scripts]
 clint = 'clint.cli:CLI.entrypoint'

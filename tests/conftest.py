@@ -1,5 +1,6 @@
 """Configuration for general tests."""
 import pytest
+import toml
 from click.testing import CliRunner
 from faker import Faker
 
@@ -72,3 +73,11 @@ def sentence() -> str:
 def cli_runner() -> CliRunner:
     """Fixture to get a CliRunner instance."""
     return CliRunner()
+
+
+@pytest.fixture
+def clint_metadata() -> dict:
+    """Fixture to get the CLint metadata as dictionary."""
+    with open("../pyproject.toml", mode="r", encoding="UTF-8") as pyproject:
+        metadata = toml.load(pyproject)
+    return metadata
