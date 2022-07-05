@@ -4,6 +4,8 @@
 
 # CLint: Conventional commits linter
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 `CLint` es una herramienta de línea de commandos, que permite validar de distintas formas los mensajes asociados a
 commits de git, de tal forma que sean compatibles con
 la [especificación de Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification).
