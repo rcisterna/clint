@@ -9,9 +9,18 @@ repository = "https://github.com/rcisterna/clint"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
+    "Framework :: Pytest",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-    "Topic :: Software Development :: Version Control :: Git"
+    "Operating System :: MacOS",
+    "Operating System :: POSIX",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Software Development :: Version Control :: Git",
+    "Topic :: System :: Shells",
 ]
 
 [tool.poetry.dependencies]
