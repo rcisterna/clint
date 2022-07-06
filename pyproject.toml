@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "clint"
+name = "clint-cli"
 version = "0.1.0"
 description = "Conventional Commits Linter"
 license = "GPL-3.0-or-later"
@@ -21,6 +21,9 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Topic :: Software Development :: Version Control :: Git",
     "Topic :: System :: Shells",
+]
+packages = [
+    { include = "clint" },
 ]
 
 [tool.poetry.dependencies]
