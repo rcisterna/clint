@@ -51,11 +51,15 @@ check-pylint:
 	|| (printf "$(FG_RED)Issues below were found by pylint.$(FG_CLEAR)\n\n" && false)
 
 .PHONY: tests
-tests: ## Run test suite
+tests: ## Run test suite, except the CI tests
 	@poetry run coverage erase
-	@poetry run coverage run -m pytest
+	@poetry run coverage run -m pytest -m "not ci_version" --strict-markers
 	@printf "\n$(FG_BLUE)Coverage report:$(FG_CLEAR)\n\n"
 	@poetry run coverage report -m
+
+.PHONY: tests-ci-version
+tests-ci-version: ## Run the CI version tests
+	@poetry run pytest -m ci_version
 
 .PHONY: isort
 isort:  ## Run isort over staged files

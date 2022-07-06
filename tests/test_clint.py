@@ -1,7 +1,7 @@
 """Test suite for generic test of CLint package."""
-from clint import __version__
+import clint
 
 
-def test_version():
+def test_version(clint_metadata):
     """Verify version for clint."""
-    assert __version__ == "0.1.0"
+    assert clint.__version__ == clint_metadata["tool"]["poetry"]["version"]
