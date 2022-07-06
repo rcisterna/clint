@@ -1,6 +1,9 @@
 """Configuration for general tests."""
+import os.path
+
 import pytest
 import toml
+import urllib3
 from click.testing import CliRunner
 from faker import Faker
 
@@ -76,8 +79,19 @@ def cli_runner() -> CliRunner:
 
 
 @pytest.fixture
-def clint_metadata() -> dict:
+def clint_metadata(pytestconfig) -> dict:
     """Fixture to get the CLint metadata as dictionary."""
-    with open("../pyproject.toml", mode="r", encoding="UTF-8") as pyproject:
+    pyproject_path = os.path.join(pytestconfig.rootpath, "pyproject.toml")
+    with open(pyproject_path, mode="r", encoding="utf8") as pyproject:
         metadata = toml.load(pyproject)
     return metadata
+
+
+@pytest.fixture
+def clint_main_metadata() -> dict:
+    """Fixture to get the CLint metadata as dictionary."""
+    url = "https://raw.githubusercontent.com/rcisterna/clint/main/pyproject.toml"
+    http = urllib3.PoolManager()
+    with http.request("GET", url, preload_content=False) as response:
+        pyproject_str = response.data.decode("utf8")
+    return toml.loads(pyproject_str)

@@ -50,3 +50,6 @@ convention = "numpy"
 [tool.coverage.report]
 fail_under = 80
 skip_empty = true
+
+[tool.pytest.ini_options]
+markers = ["ci_version: Run test related to semver on CI."]
