@@ -14,6 +14,29 @@ that the message is [Conventional Commits compliant](https://www.conventionalcom
 - [Python](https://www.python.org/) 3.7.2+
 - [Poetry](https://python-poetry.org/)
 
+## Installation
+
+While the implementation is still in alpha state, the only way to install `CLint` will be through `pip` (or tools
+like `poetry` and `pipenv`).
+
+### Pip
+
+```sh
+$ pip install clint-cli
+```
+
+### Poetry
+
+```sh
+$ poetry add clint-cli
+```
+
+### Pipenv
+
+```sh
+$ pipenv install clint-cli
+```
+
 ## Key features
 
 - Validate a commit message in the command line.

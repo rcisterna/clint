@@ -15,6 +15,29 @@ la [especificación de Conventional Commits](https://www.conventionalcommits.org
 - [Python](https://www.python.org/) 3.7.2+
 - [Poetry](https://python-poetry.org/)
 
+## Instalación
+
+Mientras la implementación siga en fase alpha, la única forma de instalar `CLint` será a través de `pip` (o herramientas
+como `poetry` y `pipenv`).
+
+### Pip
+
+```sh
+$ pip install clint-cli
+```
+
+### Poetry
+
+```sh
+$ poetry add clint-cli
+```
+
+### Pipenv
+
+```sh
+$ pipenv install clint-cli
+```
+
 ## Características principales
 
 - Valida un mensaje en la línea de comandos.
