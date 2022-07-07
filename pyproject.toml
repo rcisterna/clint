@@ -43,7 +43,7 @@ bpython = "^0.22.1"
 toml = "^0.10.2"
 
 [tool.poetry.scripts]
-clint = 'clint.cli:CLI.entrypoint'
+clint = 'clint.cli:Command.entrypoint'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
