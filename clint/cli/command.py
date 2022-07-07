@@ -1,4 +1,5 @@
 """CLint command line interface."""
+from typing import TextIO
 
 import click
 
@@ -11,9 +12,19 @@ class Command:
     @staticmethod
     @click.command(no_args_is_help=True)
     @click.argument("message", type=click.STRING, required=False)
-    def entrypoint(message):
+    @click.option(
+        "-f",
+        "--file",
+        type=click.File(),
+        help="File path containing the commit message.",
+    )
+    def entrypoint(message: click.STRING, file: TextIO):
         """CLint: A Conventional Commits Linter for your shell."""
-        result = Runner.validate(message=message)
+        result = None
+        if message:
+            result = Runner.validate(message=message)
+        if file:
+            result = Runner.validate(message=file.read())
         Command.show_result(result=result)
 
     @staticmethod

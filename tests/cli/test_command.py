@@ -13,12 +13,27 @@ class TestCommandEntrypoint:
     mock_runner_validate: MagicMock
     mock_command_show_result: MagicMock
 
-    def test_valid_invocation(self, cli_runner, sentence):
-        """Test valid invocation of the entrypoint."""
+    def test_with_message(self, cli_runner, sentence):
+        """Test invocation of the entrypoint with message."""
         self.mock_runner_validate.reset_mock()
         self.mock_command_show_result.reset_mock()
         msg = f"feat: {sentence}"
         result = cli_runner.invoke(Command.entrypoint, [msg])
+        assert self.mock_runner_validate.call_args_list == [call(message=msg)]
+        assert self.mock_command_show_result.call_count == 1
+        assert not result.exception
+        assert result.exit_code == 0
+
+    def test_with_file(self, cli_runner, sentence):
+        """Test invocation of the entrypoint with file."""
+        self.mock_runner_validate.reset_mock()
+        self.mock_command_show_result.reset_mock()
+        msg = f"feat: {sentence}"
+        with cli_runner.isolated_filesystem():
+            filename = "example.txt"
+            with open(filename, "w", encoding="utf8") as temp_file:
+                temp_file.write(msg)
+            result = cli_runner.invoke(Command.entrypoint, ["--file", filename])
         assert self.mock_runner_validate.call_args_list == [call(message=msg)]
         assert self.mock_command_show_result.call_count == 1
         assert not result.exception
