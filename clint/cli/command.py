@@ -3,6 +3,8 @@ from typing import TextIO
 
 import click
 
+import clint
+
 from .runner import Runner
 
 
@@ -18,6 +20,7 @@ class Command:
         type=click.File(),
         help="File path containing the commit message.",
     )
+    @click.version_option(clint.__version__)
     def entrypoint(message: click.STRING, file: TextIO):
         """CLint: A Conventional Commits Linter for your shell."""
         result = None
