@@ -9,8 +9,8 @@ class Command:
     """Command class for CLI arguments parsing."""
 
     @staticmethod
-    @click.command()
-    @click.argument("message", type=click.STRING)
+    @click.command(no_args_is_help=True)
+    @click.argument("message", type=click.STRING, required=False)
     def entrypoint(message):
         """CLint: A Conventional Commits Linter for your shell."""
         result = Runner.validate(message=message)

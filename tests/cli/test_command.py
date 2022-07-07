@@ -31,5 +31,4 @@ class TestCommandEntrypoint:
         result = cli_runner.invoke(Command.entrypoint)
         assert not self.mock_runner_validate.called
         assert not self.mock_command_show_result.called
-        assert result.exception
-        assert result.exit_code == 2
+        assert result.exit_code == 0
