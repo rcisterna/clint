@@ -12,6 +12,31 @@ def cli_runner() -> CliRunner:
 
 
 @pytest.fixture(scope="class")
+def hook_handler_methods(request, class_mocker):
+    """Fixture to patch cli.hook_handler.HookHandler methods."""
+    request.cls.mock_hook_get_repo_root = class_mocker.patch(
+        "clint.cli.hook_handler.HookHandler._get_repo_root"
+    )
+    request.cls.mock_hook_enable = class_mocker.patch(
+        "clint.cli.hook_handler.HookHandler.enable"
+    )
+    request.cls.mock_hook_disable = class_mocker.patch(
+        "clint.cli.hook_handler.HookHandler.disable"
+    )
+
+
+@pytest.fixture
+def clean_hook_handler_methods(request: pytest.FixtureRequest):
+    """Fixture to reset hook_handler_methods fixture mocks."""
+    request.cls.mock_hook_get_repo_root.reset_mock()
+    request.cls.mock_hook_enable.reset_mock()
+    request.cls.mock_hook_disable.reset_mock()
+    request.cls.mock_hook_get_repo_root.side_effect = None
+    request.cls.mock_hook_enable.side_effect = None
+    request.cls.mock_hook_disable.side_effect = None
+
+
+@pytest.fixture(scope="class")
 def mock_command_show_result(request, class_mocker):
     """Fixture to patch cli.command.Command.show_result method."""
     request.cls.mock_command_show_result = class_mocker.patch(

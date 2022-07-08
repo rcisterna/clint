@@ -11,13 +11,13 @@ class HookHandler:
     COMMAND = "clint --file $1"
 
     def __init__(self):
-        self.path = self.__get_repo_root()
+        self.path = self._get_repo_root()
         self.hook_filepath = Path(
             os.path.join(self.path, ".git", "hooks", "commit-msg")
         )
 
     @staticmethod
-    def __get_repo_root() -> str:
+    def _get_repo_root() -> str:
         """
         Get repository root.
 
