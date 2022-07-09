@@ -62,7 +62,7 @@ class HookHandler:
         if self.is_enabled:
             return "Hook already enabled in this repository."
         if not self.hook_filepath.is_file():
-            with open(self.hook_filepath, mode="w", encoding="utf8") as hook_file:
+            with open(self.hook_filepath, mode="w", encoding="utf8"):
                 pass
             os.chmod(self.hook_filepath, 0o755)
         with open(self.hook_filepath, mode="a", encoding="utf8") as hook_file:
