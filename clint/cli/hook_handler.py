@@ -9,6 +9,7 @@ class HookHandler:
     """Class that handles git hook operations."""
 
     COMMAND = "clint --file $1"
+    ROOT_DIR = os.path.abspath(os.getcwd()).split(os.sep)[0] + os.sep
 
     def __init__(self):
         self.path = self._get_repo_root()
@@ -32,11 +33,11 @@ class HookHandler:
             If not inside git repository.
         """
         current = os.getcwd()
-        while current != "/":
+        while current != HookHandler.ROOT_DIR:
             if Path(os.path.join(current, ".git")).is_dir():
                 break
             current = os.path.abspath(os.path.join(current, ".."))
-        if current == "/":
+        if current == HookHandler.ROOT_DIR:
             raise HookException("Not in a git repository.")
         return current
 
