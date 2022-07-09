@@ -21,6 +21,12 @@ def mock_sys_exit(request, class_mocker):
     request.cls.mock_sys_exit = class_mocker.patch("sys.exit")
 
 
+@pytest.fixture(name="faker")
+def fixture_faker() -> Faker:
+    """Fixture to get a faker instance."""
+    return Faker()
+
+
 @pytest.fixture
 def sentence() -> str:
     """Fixture to get a faker sentence."""
