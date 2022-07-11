@@ -2,6 +2,7 @@
 # pylint: disable=too-many-arguments
 import pytest
 
+from clint.cli.result import Result
 from clint.validator import Subject, ValidationException
 
 from .conftest import INVALID_DATA, VALID_DATA
@@ -49,7 +50,9 @@ class TestSubjectValidate:
         subject.breaking = breaking
         subject.separator = separator
         subject.description = sentence
-        assert subject.validate()
+        result = Result(operation="test", base_error_code=0)
+        subject.validate(result=result)
+        assert result.return_code == 0
 
     @pytest.mark.parametrize("c_type", INVALID_DATA["subject"]["types"])
     def test_invalid_type(self, c_type, sentence, subject):
@@ -57,8 +60,9 @@ class TestSubjectValidate:
         subject.type = c_type
         subject.separator = VALID_DATA["subject"]["separators"][0]
         subject.description = sentence
-        with pytest.raises(ValidationException):
-            subject.validate()
+        result = Result(operation="test", base_error_code=0)
+        subject.validate(result=result)
+        assert result.return_code == 1
 
     @pytest.mark.parametrize("scope", INVALID_DATA["subject"]["scopes"])
     def test_invalid_scope(self, scope, sentence, subject):
@@ -67,8 +71,9 @@ class TestSubjectValidate:
         subject.scope = scope
         subject.separator = VALID_DATA["subject"]["separators"][0]
         subject.description = sentence
-        with pytest.raises(ValidationException):
-            subject.validate()
+        result = Result(operation="test", base_error_code=0)
+        subject.validate(result=result)
+        assert result.return_code == 1
 
     @pytest.mark.parametrize("separator", INVALID_DATA["subject"]["separators"])
     def test_invalid_separator(self, separator, sentence, subject):
@@ -76,8 +81,9 @@ class TestSubjectValidate:
         subject.type = VALID_DATA["subject"]["types"][0]
         subject.separator = separator
         subject.description = sentence
-        with pytest.raises(ValidationException):
-            subject.validate()
+        result = Result(operation="test", base_error_code=0)
+        subject.validate(result=result)
+        assert result.return_code == 1
 
     @pytest.mark.parametrize("description", INVALID_DATA["subject"]["descriptions"])
     def test_invalid_description(self, description, subject):
@@ -85,5 +91,6 @@ class TestSubjectValidate:
         subject.type = VALID_DATA["subject"]["types"][0]
         subject.separator = VALID_DATA["subject"]["separators"][0]
         subject.description = description
-        with pytest.raises(ValidationException):
-            subject.validate()
+        result = Result(operation="test", base_error_code=0)
+        subject.validate(result=result)
+        assert result.return_code == 1

@@ -86,7 +86,7 @@ class Footer:
                 is_error=True,
             )
         valid_separators = [": ", " #"]
-        if self.separator not in valid_separators:
+        if self.separator and self.separator not in valid_separators:
             result.add_action(
                 action="separator_valid",
                 message=f"Separator '{self.separator}' is not valid.",

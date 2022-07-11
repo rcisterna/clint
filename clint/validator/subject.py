@@ -102,43 +102,44 @@ class Subject:
             result.add_action(
                 action="type_empty", message="Type cannot be empty.", is_error=True
             )
-        if not self.type.islower():
+        elif not self.type.islower():
             result.add_action(
                 action="type_case",
                 message=f"Type '{self.type}' is not lowercase.",
                 is_error=True,
             )
-        if self.type not in self.VALID_COMMIT_TYPES:
+        elif self.type not in self.VALID_COMMIT_TYPES:
             result.add_action(
                 action="type_valid",
                 message=f"Type '{self.type}' is not valid.",
                 is_error=True,
             )
-        if self.scope and not self.scope.startswith("("):
-            result.add_action(
-                action="scope_start",
-                message=f"Scope '{self.type}' should starts with '('.",
-                is_error=True,
-            )
-        if self.scope and not self.scope.endswith(")"):
-            result.add_action(
-                action="scope_end",
-                message=f"Scope '{self.type}' should ends with ')'.",
-                is_error=True,
-            )
-        if self.scope and len(self.scope) == 2:
-            result.add_action(
-                action="scope_empty",
-                message=f"Scope '{self.type}' cannot be empty.",
-                is_error=True,
-            )
+        if self.scope:
+            if not self.scope.startswith("("):
+                result.add_action(
+                    action="scope_start",
+                    message=f"Scope '{self.type}' should starts with '('.",
+                    is_error=True,
+                )
+            if not self.scope.endswith(")"):
+                result.add_action(
+                    action="scope_end",
+                    message=f"Scope '{self.type}' should ends with ')'.",
+                    is_error=True,
+                )
+            if len(self.scope) == 2:
+                result.add_action(
+                    action="scope_empty",
+                    message=f"Scope '{self.type}' cannot be empty.",
+                    is_error=True,
+                )
         if not self.separator:
             result.add_action(
                 action="separator_empty",
                 message="Separator cannot be empty.",
                 is_error=True,
             )
-        if self.separator != ": ":
+        elif self.separator != ": ":
             result.add_action(
                 action="separator_invalid",
                 message=f"Separator '{self.separator}' is not valid.",

@@ -34,15 +34,16 @@ class Paragraph:
         """Generate footers tuple."""
         if self.__footers_generated_with == self.text:
             return
-        self.is_pure = True
         footers = []
-        for index, line in enumerate(self.text.split("\n")):
+        splited_text = self.text.split("\n")
+        for line in splited_text:
             try:
                 footer = Footer.generate(line)
             except GenerationException:
-                self.is_pure = False if index > 0 else self.is_pure
+                pass
             else:
                 footers.append(footer)
+        self.is_pure = not footers or len(footers) == len(splited_text)
         self.footers = tuple(footers)
         self.__footers_generated_with = self.text
 
