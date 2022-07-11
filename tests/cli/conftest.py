@@ -15,11 +15,10 @@ def cli_runner() -> CliRunner:
 
 
 @pytest.fixture(scope="class")
-def hook_handler_methods(request, class_mocker):
+def hook_handler_methods(
+    request, class_mocker, mock_hook_get_repo_root
+):  # pylint: disable=unused-argument,redefined-outer-name
     """Fixture to patch cli.hook_handler.HookHandler methods."""
-    request.cls.mock_hook_get_repo_root = class_mocker.patch(
-        "clint.cli.hook_handler.HookHandler._get_repo_root"
-    )
     request.cls.mock_hook_enable = class_mocker.patch(
         "clint.cli.hook_handler.HookHandler.enable"
     )
