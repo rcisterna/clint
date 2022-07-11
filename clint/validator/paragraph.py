@@ -1,6 +1,7 @@
 """Paragraph validator."""
-from .exceptions import GenerationException, ValidationException
+from .exceptions import GenerationException
 from .footer import Footer
+from ..cli.result import Result
 
 
 class Paragraph:
@@ -45,14 +46,14 @@ class Paragraph:
         self.footers = tuple(footers)
         self.__footers_generated_with = self.text
 
-    def validate(self) -> bool:
+    def validate(self, result: Result) -> None:
         """
         Validate that all attributes in the class are conventional commits compliant.
 
-        Returns
-        -------
-        bool:
-            True if the object is valid.
+        Parameters
+        ----------
+        result: Result
+            Result object to register errors.
 
         Raises
         ------
@@ -62,11 +63,22 @@ class Paragraph:
         # pylint: disable=duplicate-code
         self.__generate_footers()
         if "\n" in self.text and not self.footers:
-            raise ValidationException("Paragraph cannot have new lines.")
+            result.add_action(
+                action="paragraph_newline",
+                message="Paragraph cannot have new lines.",
+                is_error=True,
+            )
         if not self.is_pure:
-            raise ValidationException("Paragraph is a mix of footers and common lines.")
+            result.add_action(
+                action="paragraph_ispure",
+                message="Paragraph is a mix of footers and common lines.",
+                is_error=True,
+            )
         if not self.text:
-            raise ValidationException("Paragraph cannot be empty.")
+            result.add_action(
+                action="paragraph_empty",
+                message="Paragraph cannot be empty.",
+                is_error=True,
+            )
         for footer in self.footers:
-            footer.validate()
-        return True
+            footer.validate(result=result)

@@ -2,7 +2,8 @@
 import re
 from typing import Optional
 
-from .exceptions import GenerationException, ValidationException
+from .exceptions import GenerationException
+from ..cli.result import Result
 
 
 class Subject:
@@ -82,14 +83,14 @@ class Subject:
             groups["description"],
         )
 
-    def validate(self) -> bool:
+    def validate(self, result: Result) -> None:
         """
         Validate that all attributes in the class are conventional commits compliant.
 
-        Returns
-        -------
-        bool:
-            True if the object is valid.
+        Parameters
+        ----------
+        result: Result
+            Result object to register errors.
 
         Raises
         ------
@@ -98,23 +99,60 @@ class Subject:
         """
         # pylint: disable=duplicate-code
         if not self.type:
-            raise ValidationException("Type cannot be empty.")
+            result.add_action(
+                action="type_empty", message="Type cannot be empty.", is_error=True
+            )
         if not self.type.islower():
-            raise ValidationException(f"Type '{self.type}' is not lowercase.")
+            result.add_action(
+                action="type_case",
+                message=f"Type '{self.type}' is not lowercase.",
+                is_error=True,
+            )
         if self.type not in self.VALID_COMMIT_TYPES:
-            raise ValidationException(f"Type '{self.type}' is not valid.")
+            result.add_action(
+                action="type_valid",
+                message=f"Type '{self.type}' is not valid.",
+                is_error=True,
+            )
         if self.scope and not self.scope.startswith("("):
-            raise ValidationException(f"Scope '{self.type}' should starts with '('.")
+            result.add_action(
+                action="scope_start",
+                message=f"Scope '{self.type}' should starts with '('.",
+                is_error=True,
+            )
         if self.scope and not self.scope.endswith(")"):
-            raise ValidationException(f"Scope '{self.type}' should ends with ')'.")
+            result.add_action(
+                action="scope_end",
+                message=f"Scope '{self.type}' should ends with ')'.",
+                is_error=True,
+            )
         if self.scope and len(self.scope) == 2:
-            raise ValidationException(f"Scope '{self.type}' cannot be empty.")
+            result.add_action(
+                action="scope_empty",
+                message=f"Scope '{self.type}' cannot be empty.",
+                is_error=True,
+            )
         if not self.separator:
-            raise ValidationException("Separator cannot be empty.")
+            result.add_action(
+                action="separator_empty",
+                message="Separator cannot be empty.",
+                is_error=True,
+            )
         if self.separator != ": ":
-            raise ValidationException(f"Separator '{self.separator}' is not valid.")
+            result.add_action(
+                action="separator_invalid",
+                message=f"Separator '{self.separator}' is not valid.",
+                is_error=True,
+            )
         if not self.description:
-            raise ValidationException("Description cannot be empty.")
+            result.add_action(
+                action="description_empty",
+                message="Description cannot be empty.",
+                is_error=True,
+            )
         if "\n" in self.description:
-            raise ValidationException("Description cannot have new lines.")
-        return True
+            result.add_action(
+                action="description_newline",
+                message="Description cannot have new lines.",
+                is_error=True,
+            )

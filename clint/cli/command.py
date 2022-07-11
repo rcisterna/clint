@@ -1,4 +1,5 @@
 """CLint command line interface."""
+import sys
 from typing import TextIO
 
 import click
@@ -7,6 +8,7 @@ import clint
 
 from .exceptions import HookException
 from .hook_handler import HookHandler
+from .result import Result
 from .runner import Runner
 
 
@@ -34,26 +36,34 @@ class Command:
         enable_hook: click.BOOL,
     ):
         """CLint: A Conventional Commits Linter for your shell."""
-        if enable_hook is not None:
+        result: Result = None
+        if enable_hook is None:
+            if message:
+                result = Runner.validate(message=message)
+            elif file:
+                result = Runner.validate(message=file.read())
+        else:
             try:
                 handler = HookHandler()
             except HookException as exception:
-                result = str(exception)
+                result = Result(
+                    operation=HookHandler.OPERATION_NAME,
+                    base_error_code=HookHandler.OPERATION_BASE_ERROR_CODE,
+                ).add_action(
+                    action=f"{'enable' if enable_hook else 'disable'} hook",
+                    message=str(exception),
+                    is_error=True,
+                )
             else:
                 if enable_hook:
                     result = handler.enable()
                 else:
                     result = handler.disable()
-            Command.show_result(result=result)
-            return
-        result = None
-        if message:
-            result = Runner.validate(message=message)
-        if file:
-            result = Runner.validate(message=file.read())
         Command.show_result(result=result)
+        sys.exit(result.return_code)
 
     @staticmethod
-    def show_result(result: str):
+    def show_result(result: Result):
         """Print result values to the user."""
-        click.echo(result)
+        for action, message in result.actions.items():
+            click.echo(f"{action}: {message}")
