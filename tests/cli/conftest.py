@@ -6,6 +6,7 @@ import pytest
 from click.testing import CliRunner
 
 from clint import validator
+from clint.cli.result import Result
 
 
 @pytest.fixture
@@ -66,7 +67,7 @@ def mock_commit_generate(request, class_mocker):
 def mock_commit_validate(request, class_mocker):
     """Fixture to patch clint.validator.Commit.validate method."""
     request.cls.mock_commit_validate = class_mocker.patch(
-        "clint.validator.Commit.validate", return_value=True
+        "clint.validator.Commit.validate"
     )
 
 

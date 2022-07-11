@@ -19,8 +19,7 @@ class TestRunnerValidate:
     def test_valid_execution(self, clean_commit_mocks):
         """Test valid execution of validate method."""
         message = "message"
-        result = Runner.validate(message=message)
-        assert result == "Your commit message is CC compliant!"
+        Runner.validate(message=message)
         assert self.mock_commit_generate.call_args_list == [call(msg=message)]
         assert self.mock_commit_validate.call_args_list == [call()]
 
@@ -30,7 +29,8 @@ class TestRunnerValidate:
         message = "message"
         self.mock_commit_generate.side_effect = validator.GenerationException(error)
         result = Runner.validate(message=message)
-        assert result == f"Parsing error: {error}"
+        assert result.actions == {"generation": error}
+        assert result.return_code == 101
         assert self.mock_commit_generate.call_args_list == [call(msg=message)]
         assert not self.mock_commit_validate.called
 
@@ -40,6 +40,7 @@ class TestRunnerValidate:
         message = "message"
         self.mock_commit_validate.side_effect = validator.ValidationException(error)
         result = Runner.validate(message=message)
-        assert result == f"Validation error: {error}"
+        assert result.actions == {"validation": error}
+        assert result.return_code == 101
         assert self.mock_commit_generate.call_args_list == [call(msg=message)]
         assert self.mock_commit_validate.call_args_list == [call()]
