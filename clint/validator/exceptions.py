@@ -1,7 +1,8 @@
-"""Exceptions in validator class."""
+"""Exceptions for validator package."""
+from clint.exceptions import ClintException
 
 
-class ValidatorException(Exception):
+class ValidatorException(ClintException):
     """Generic validator exception."""
 
 

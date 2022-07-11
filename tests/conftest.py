@@ -1,13 +1,8 @@
 """Configuration for general tests."""
-import os.path
-
 import pytest
-import toml
-import urllib3
-from click.testing import CliRunner
 from faker import Faker
 
-from clint import validator
+from .ci.conftest import metadata_current  # pylint: disable=unused-import
 
 faker = Faker()
 
@@ -26,72 +21,13 @@ def mock_sys_exit(request, class_mocker):
     request.cls.mock_sys_exit = class_mocker.patch("sys.exit")
 
 
-@pytest.fixture(scope="class")
-def mock_validate_commit_message(request, class_mocker):
-    """Fixture to patch cli.CLI.validate_commit_message method."""
-    request.cls.mock_validate_commit_message = class_mocker.patch(
-        "clint.cli.CLI.validate_commit_message"
-    )
-
-
-@pytest.fixture(scope="class")
-def mock_commit_generate(request, class_mocker):
-    """Fixture to patch clint.cli.validator.Commit.generate method."""
-    request.cls.mock_commit_generate = class_mocker.patch(
-        "clint.cli.validator.Commit.generate", return_value=validator.Commit("")
-    )
-
-
-@pytest.fixture(scope="class")
-def mock_commit_validate(request, class_mocker):
-    """Fixture to patch clint.cli.validator.Commit.validate method."""
-    request.cls.mock_commit_validate = class_mocker.patch(
-        "clint.cli.validator.Commit.validate", return_value=True
-    )
-
-
-@pytest.fixture(scope="class")
-def mock_click_echo(request, class_mocker):
-    """Fixture to patch clint.cli.validator.Commit.validate method."""
-    request.cls.mock_click_echo = class_mocker.patch("click.echo")
-
-
-@pytest.fixture
-def clean_commit_mocks(request: pytest.FixtureRequest):
-    """Fixture to reset mock_subject_validate and mock_paragraph_validate."""
-    request.cls.mock_commit_generate.reset_mock()
-    request.cls.mock_commit_generate.side_effect = None
-    request.cls.mock_commit_validate.reset_mock()
-    request.cls.mock_commit_validate.side_effect = None
-    request.cls.mock_click_echo.reset_mock()
+@pytest.fixture(name="faker")
+def fixture_faker() -> Faker:
+    """Fixture to get a faker instance."""
+    return Faker()
 
 
 @pytest.fixture
 def sentence() -> str:
     """Fixture to get a faker sentence."""
     return faker.sentence()
-
-
-@pytest.fixture
-def cli_runner() -> CliRunner:
-    """Fixture to get a CliRunner instance."""
-    return CliRunner()
-
-
-@pytest.fixture
-def clint_metadata(pytestconfig) -> dict:
-    """Fixture to get the CLint metadata as dictionary."""
-    pyproject_path = os.path.join(pytestconfig.rootpath, "pyproject.toml")
-    with open(pyproject_path, mode="r", encoding="utf8") as pyproject:
-        metadata = toml.load(pyproject)
-    return metadata
-
-
-@pytest.fixture
-def clint_main_metadata() -> dict:
-    """Fixture to get the CLint metadata as dictionary."""
-    url = "https://raw.githubusercontent.com/rcisterna/clint/main/pyproject.toml"
-    http = urllib3.PoolManager()
-    with http.request("GET", url, preload_content=False) as response:
-        pyproject_str = response.data.decode("utf8")
-    return toml.loads(pyproject_str)
