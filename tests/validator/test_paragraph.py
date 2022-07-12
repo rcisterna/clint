@@ -2,7 +2,8 @@
 # pylint: disable=too-many-arguments
 import pytest
 
-from clint.validator import Paragraph, ValidationException
+from clint.cli.result import Result
+from clint.validator import Paragraph
 
 from .conftest import INVALID_DATA, VALID_DATA
 
@@ -33,11 +34,14 @@ class TestParagraphValidate:
     def test_valid_paragraph(self, text, paragraph):
         """Test that all correct messages can generate a new paragraph object."""
         paragraph.text = text
-        assert paragraph.validate()
+        result = Result(operation="test", base_error_code=0)
+        paragraph.validate(result=result)
+        assert result.return_code == 0
 
     @pytest.mark.parametrize("text", INVALID_DATA["body"]["texts"])
     def test_invalid_text(self, text, paragraph):
         """Test that invalid text raises an exception."""
         paragraph.text = text
-        with pytest.raises(ValidationException):
-            paragraph.validate()
+        result = Result(operation="test", base_error_code=0)
+        paragraph.validate(result=result)
+        assert result.return_code == 1

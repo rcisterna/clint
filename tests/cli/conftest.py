@@ -1,6 +1,6 @@
 """Tests suite for CLI classes."""
 import os
-from unittest.mock import MagicMock
+from unittest.mock import DEFAULT, MagicMock
 
 import pytest
 from click.testing import CliRunner
@@ -36,6 +36,8 @@ def clean_hook_handler_methods(request: pytest.FixtureRequest):
     request.cls.mock_hook_get_repo_root.side_effect = None
     request.cls.mock_hook_enable.side_effect = None
     request.cls.mock_hook_disable.side_effect = None
+    request.cls.mock_hook_enable.return_value = DEFAULT
+    request.cls.mock_hook_disable.return_value = DEFAULT
 
 
 @pytest.fixture(scope="class")
@@ -66,7 +68,7 @@ def mock_commit_generate(request, class_mocker):
 def mock_commit_validate(request, class_mocker):
     """Fixture to patch clint.validator.Commit.validate method."""
     request.cls.mock_commit_validate = class_mocker.patch(
-        "clint.validator.Commit.validate", return_value=True
+        "clint.validator.Commit.validate"
     )
 
 

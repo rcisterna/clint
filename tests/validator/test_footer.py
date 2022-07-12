@@ -2,7 +2,8 @@
 # pylint: disable=too-many-arguments
 import pytest
 
-from clint.validator import Footer, GenerationException, ValidationException
+from clint.cli.result import Result
+from clint.validator import Footer, GenerationException
 
 from .conftest import INVALID_DATA, VALID_DATA
 
@@ -37,7 +38,9 @@ class TestFooterValidate:
         footer.token = token
         footer.separator = separator
         footer.description = sentence
-        assert footer.validate()
+        result = Result(operation="test", base_error_code=0)
+        footer.validate(result=result)
+        assert result.return_code == 0
 
     @pytest.mark.parametrize("token", INVALID_DATA["footer"]["tokens"])
     def test_invalid_token(self, token, sentence, footer):
@@ -45,8 +48,9 @@ class TestFooterValidate:
         footer.token = token
         footer.separator = VALID_DATA["footer"]["separators"][0]
         footer.description = sentence
-        with pytest.raises(ValidationException):
-            footer.validate()
+        result = Result(operation="test", base_error_code=0)
+        footer.validate(result=result)
+        assert result.return_code == 1
 
     @pytest.mark.parametrize("separator", INVALID_DATA["footer"]["separators"])
     def test_invalid_separator(self, separator, sentence, footer):
@@ -54,8 +58,9 @@ class TestFooterValidate:
         footer.token = VALID_DATA["footer"]["tokens"][0]
         footer.separator = separator
         footer.description = sentence
-        with pytest.raises(ValidationException):
-            footer.validate()
+        result = Result(operation="test", base_error_code=0)
+        footer.validate(result=result)
+        assert result.return_code == 1
 
     @pytest.mark.parametrize("description", INVALID_DATA["footer"]["descriptions"])
     def test_invalid_description(self, description, footer):
@@ -63,5 +68,6 @@ class TestFooterValidate:
         footer.token = VALID_DATA["footer"]["tokens"][0]
         footer.separator = VALID_DATA["footer"]["separators"][0]
         footer.description = description
-        with pytest.raises(ValidationException):
-            footer.validate()
+        result = Result(operation="test", base_error_code=0)
+        footer.validate(result=result)
+        assert result.return_code == 1

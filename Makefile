@@ -14,7 +14,7 @@ modules = clint tests
 help:
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-.PHONY: shell
+.PHONY: repl
 repl: ## Open new REPL
 	@poetry run bpython
 
@@ -63,12 +63,12 @@ tests-ci-version: ## Run the CI version tests
 
 .PHONY: isort
 isort:  ## Run isort over staged files
-	@git diff --staged --name-only | grep .py | xargs poetry run isort
+	poetry run isort clint tests
 
 .PHONY: black
 black:  ## Run black over staged files
-	@git diff --staged --name-only | grep .py | xargs poetry run black
+	poetry run isort clint tests
 
 .PHONY: pylint
 pylint:  ## Run pylint over staged files
-	@git diff --staged --name-only | grep .py | xargs poetry run pylint --output-format=colorized
+	poetry run pylint clint tests --output-format=colorized

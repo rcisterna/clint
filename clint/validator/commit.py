@@ -1,12 +1,16 @@
 """Commit validator."""
 from typing import Optional
 
+from ..cli.result import Result
 from .paragraph import Paragraph
 from .subject import Subject
 
 
 class Commit:
     """Validator class for commit message."""
+
+    OPERATION_NAME = "Validator"
+    OPERATION_BASE_ERROR_CODE = 0
 
     def __init__(self, text: str):
         split = text.split("\n\n")
@@ -30,7 +34,7 @@ class Commit:
         """
         return Commit(text=msg)
 
-    def validate(self) -> bool:
+    def validate(self) -> Result:
         """
         Validate that all attributes in the class are conventional commits compliant.
 
@@ -45,7 +49,17 @@ class Commit:
             If any attribute is not valid.
         """
         # pylint: disable=duplicate-code
-        self.subject.validate()
+        result = Result(
+            operation=self.OPERATION_NAME,
+            base_error_code=self.OPERATION_BASE_ERROR_CODE,
+        )
+        self.subject.validate(result=result)
         for paragraph in self.paragraphs:
-            paragraph.validate()
-        return True
+            paragraph.validate(result=result)
+        if not result.actions:
+            result.add_action(
+                action="validation",
+                message="Your commit message is CC compliant!",
+                is_error=False,
+            )
+        return result

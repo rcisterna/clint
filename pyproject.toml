@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "clint-cli"
-version = "0.2.0"
+version = "0.3.0"
 description = "Conventional Commits Linter"
 license = "GPL-3.0-or-later"
 authors = ["Ricardo Cisterna <r.cisternasantos@gmail.com>"]

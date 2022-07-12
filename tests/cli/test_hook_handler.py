@@ -72,7 +72,11 @@ class TestHookHandlerEnable:
         """Test invocation if hook is already enabled."""
         self.mock_hook_is_enabled.return_value = True
         hook_handler = HookHandler()
-        assert hook_handler.enable() == "Hook already enabled in this repository."
+        result = hook_handler.enable()
+        assert result.return_code == HookHandler.OPERATION_BASE_ERROR_CODE + 1
+        assert result.actions == {
+            "Enable hook": "Hook already enabled in this repository."
+        }
 
     def test_no_hooks_file(self, mock_hook_path_is_file, mocker):
         """Test invocation if no hooks file."""
@@ -82,7 +86,11 @@ class TestHookHandlerEnable:
         mocked_open = mocker.mock_open()
         mocker.patch("clint.cli.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
-        assert hook_handler.enable() == f"Hook enabled at {hook_handler.hook_filepath}"
+        result = hook_handler.enable()
+        assert result.return_code == 0
+        assert result.actions == {
+            "Enable hook": f"Hook enabled at {hook_handler.hook_filepath}"
+        }
         assert mocked_open.call_args_list == [
             call(hook_handler.hook_filepath, mode="w", encoding="utf8"),
             call(hook_handler.hook_filepath, mode="a", encoding="utf8"),
@@ -101,7 +109,11 @@ class TestHookHandlerEnable:
         mocked_open = mocker.mock_open()
         mocker.patch("clint.cli.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
-        assert hook_handler.enable() == f"Hook enabled at {hook_handler.hook_filepath}"
+        result = hook_handler.enable()
+        assert result.return_code == 0
+        assert result.actions == {
+            "Enable hook": f"Hook enabled at {hook_handler.hook_filepath}"
+        }
         assert mocked_open.call_args_list == [
             call(hook_handler.hook_filepath, mode="a", encoding="utf8")
         ]
@@ -123,7 +135,11 @@ class TestHookHandlerDisable:
         """Test invocation if hook is already disabled."""
         self.mock_hook_is_enabled.return_value = False
         hook_handler = HookHandler()
-        assert hook_handler.disable() == "Hook it is not enabled in this repository."
+        result = hook_handler.disable()
+        assert result.return_code == HookHandler.OPERATION_BASE_ERROR_CODE + 1
+        assert result.actions == {
+            "Disable hook": "Hook it is not enabled in this repository."
+        }
 
     def test_no_hooks_file(self, mocker, faker):
         """Test invocation if there are many hooks."""
@@ -136,9 +152,11 @@ class TestHookHandlerDisable:
         )
         mocker.patch("clint.cli.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
-        assert (
-            hook_handler.disable() == f"Hook disabled at {hook_handler.hook_filepath}"
-        )
+        result = hook_handler.disable()
+        assert result.return_code == 0
+        assert result.actions == {
+            "Disable hook": f"Hook disabled at {hook_handler.hook_filepath}"
+        }
         assert mocked_open.call_args_list == [
             call(hook_handler.hook_filepath, mode="r", encoding="utf8"),
             call(hook_handler.hook_filepath, mode="w", encoding="utf8"),
@@ -154,9 +172,11 @@ class TestHookHandlerDisable:
         mocked_open = mocker.mock_open(read_data=f"{HookHandler.COMMAND}\n")
         mocker.patch("clint.cli.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
-        assert (
-            hook_handler.disable() == f"Hook disabled at {hook_handler.hook_filepath}"
-        )
+        result = hook_handler.disable()
+        assert result.return_code == 0
+        assert result.actions == {
+            "Disable hook": f"Hook disabled at {hook_handler.hook_filepath}"
+        }
         assert mocked_open.call_args_list == [
             call(hook_handler.hook_filepath, mode="r", encoding="utf8")
         ]

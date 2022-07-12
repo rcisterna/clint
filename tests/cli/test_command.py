@@ -5,6 +5,8 @@ import pytest
 
 from clint.cli.command import Command
 from clint.cli.exceptions import HookException
+from clint.cli.hook_handler import HookHandler
+from clint.cli.result import Result
 
 
 @pytest.mark.usefixtures(
@@ -21,40 +23,56 @@ class TestCommandEntrypoint:
     mock_hook_enable: MagicMock
     mock_hook_disable: MagicMock
 
-    def test_with_message(self, cli_runner, sentence):
+    results = [
+        Result(operation="test", base_error_code=0),
+        Result(operation="test", base_error_code=0).add_action(
+            action="no_error", message="message", is_error=False
+        ),
+        Result(operation="test", base_error_code=0).add_action(
+            action="error", message="message", is_error=True
+        ),
+        Result(operation="test", base_error_code=0)
+        .add_action(action="error", message="message", is_error=True)
+        .add_action(action="no_error", message="message", is_error=False),
+        Result(operation="test", base_error_code=0)
+        .add_action(action="no_error", message="message", is_error=False)
+        .add_action(action="error", message="message", is_error=True),
+    ]
+
+    @pytest.mark.parametrize("result", results)
+    def test_with_message(self, cli_runner, sentence, result):
         """Test invocation of the entrypoint with message."""
         self.mock_runner_validate.reset_mock()
+        self.mock_runner_validate.return_value = result
         self.mock_command_show_result.reset_mock()
-        msg = f"feat: {sentence}"
-        result = cli_runner.invoke(Command.entrypoint, [msg])
-        assert self.mock_runner_validate.call_args_list == [call(message=msg)]
-        assert self.mock_command_show_result.call_count == 1
-        assert not result.exception
-        assert result.exit_code == 0
+        cmd_result = cli_runner.invoke(Command.entrypoint, [sentence])
+        assert self.mock_runner_validate.call_args_list == [call(message=sentence)]
+        assert self.mock_command_show_result.call_args_list == [call(result=result)]
+        assert cmd_result.exit_code == result.return_code
 
-    def test_with_file(self, cli_runner, sentence):
+    @pytest.mark.parametrize("result", results)
+    def test_with_file(self, cli_runner, sentence, result):
         """Test invocation of the entrypoint with file."""
         self.mock_runner_validate.reset_mock()
+        self.mock_runner_validate.return_value = result
         self.mock_command_show_result.reset_mock()
-        msg = f"feat: {sentence}"
         with cli_runner.isolated_filesystem():
             filename = "example.txt"
             with open(filename, "w", encoding="utf8") as temp_file:
-                temp_file.write(msg)
-            result = cli_runner.invoke(Command.entrypoint, ["--file", filename])
-        assert self.mock_runner_validate.call_args_list == [call(message=msg)]
-        assert self.mock_command_show_result.call_count == 1
-        assert not result.exception
-        assert result.exit_code == 0
+                temp_file.write(sentence)
+            cmd_result = cli_runner.invoke(Command.entrypoint, ["--file", filename])
+        assert self.mock_runner_validate.call_args_list == [call(message=sentence)]
+        assert self.mock_command_show_result.call_args_list == [call(result=result)]
+        assert cmd_result.exit_code == result.return_code
 
     def test_empty_invocation(self, cli_runner):
         """Test invocation of the entrypoint with no arguments."""
         self.mock_runner_validate.reset_mock()
         self.mock_command_show_result.reset_mock()
-        result = cli_runner.invoke(Command.entrypoint)
+        cmd_result = cli_runner.invoke(Command.entrypoint)
         assert not self.mock_runner_validate.called
         assert not self.mock_command_show_result.called
-        assert result.exit_code == 0
+        assert cmd_result.exit_code == 0
 
     @pytest.mark.parametrize("hook_flag", ["--enable-hook", "--disable-hook"])
     def test_hook_outside_repo(
@@ -64,39 +82,41 @@ class TestCommandEntrypoint:
         self.mock_runner_validate.reset_mock()
         self.mock_command_show_result.reset_mock()
         self.mock_hook_get_repo_root.side_effect = HookException(sentence)
-        result = cli_runner.invoke(Command.entrypoint, [hook_flag])
+        cmd_result = cli_runner.invoke(Command.entrypoint, [hook_flag])
         assert self.mock_hook_get_repo_root.call_args_list == [call()]
         assert not self.mock_hook_enable.called
         assert not self.mock_hook_disable.called
         assert not self.mock_runner_validate.called
-        assert self.mock_command_show_result.call_args_list == [call(result=sentence)]
-        assert result.exit_code == 0
+        assert self.mock_command_show_result.called
+        assert cmd_result.exit_code == HookHandler.OPERATION_BASE_ERROR_CODE + 1
 
-    def test_hook_enable(self, cli_runner, sentence, clean_hook_handler_methods):
+    @pytest.mark.parametrize("result", results)
+    def test_hook_enable(self, cli_runner, clean_hook_handler_methods, result):
         """Test invocation of the entrypoint to enable git hook."""
         self.mock_runner_validate.reset_mock()
         self.mock_command_show_result.reset_mock()
-        self.mock_hook_enable.return_value = sentence
-        result = cli_runner.invoke(Command.entrypoint, ["--enable-hook"])
+        self.mock_hook_enable.return_value = result
+        cmd_result = cli_runner.invoke(Command.entrypoint, ["--enable-hook"])
         assert self.mock_hook_get_repo_root.call_args_list == [call()]
         assert self.mock_hook_enable.call_args_list == [call()]
         assert not self.mock_hook_disable.called
         assert not self.mock_runner_validate.called
-        assert self.mock_command_show_result.call_args_list == [call(result=sentence)]
-        assert result.exit_code == 0
+        assert self.mock_command_show_result.call_args_list == [call(result=result)]
+        assert cmd_result.exit_code == result.return_code
 
-    def test_hook_disable(self, cli_runner, sentence, clean_hook_handler_methods):
+    @pytest.mark.parametrize("result", results)
+    def test_hook_disable(self, cli_runner, clean_hook_handler_methods, result):
         """Test invocation of the entrypoint to disable git hook."""
         self.mock_runner_validate.reset_mock()
         self.mock_command_show_result.reset_mock()
-        self.mock_hook_disable.return_value = sentence
-        result = cli_runner.invoke(Command.entrypoint, ["--disable-hook"])
+        self.mock_hook_disable.return_value = result
+        cmd_result = cli_runner.invoke(Command.entrypoint, ["--disable-hook"])
         assert self.mock_hook_get_repo_root.call_args_list == [call()]
         assert not self.mock_hook_enable.called
         assert self.mock_hook_disable.call_args_list == [call()]
         assert not self.mock_runner_validate.called
-        assert self.mock_command_show_result.call_args_list == [call(result=sentence)]
-        assert result.exit_code == 0
+        assert self.mock_command_show_result.call_args_list == [call(result=result)]
+        assert cmd_result.exit_code == result.return_code
 
 
 @pytest.mark.usefixtures("mock_click_echo")
@@ -105,9 +125,26 @@ class TestCommandShowResult:  # pylint: disable=too-few-public-methods
 
     mock_click_echo: MagicMock
 
-    def test_valid_invocation(self, sentence):
+    results = [
+        Result(operation="test", base_error_code=0),
+        Result(operation="test", base_error_code=0).add_action(
+            action="no_error", message="message", is_error=False
+        ),
+        Result(operation="test", base_error_code=0)
+        .add_action(action="error", message="message", is_error=True)
+        .add_action(action="no_error", message="message", is_error=False),
+        Result(operation="test", base_error_code=0)
+        .add_action(action="no_error", message="message", is_error=False)
+        .add_action(action="error", message="message", is_error=True)
+        .add_action(action="no_error_2", message="message", is_error=False),
+    ]
+
+    @pytest.mark.parametrize("result", results)
+    def test_valid_invocation(self, result):
         """Test invocation with valid call."""
         self.mock_click_echo.reset_mock()
-        result = Command.show_result(result=sentence)
-        assert result is None
-        assert self.mock_click_echo.call_args_list == [call(sentence)]
+        Command.show_result(result=result)
+        calls = []
+        for action, message in result.actions.items():
+            calls.append(call(f"{action}: {message}"))
+        assert self.mock_click_echo.call_args_list == calls

@@ -48,7 +48,7 @@ VALID_DATA = {
 INVALID_DATA = {
     "subject": {
         "types": ["", "tets", "foo", "Chore", "\nfeat"],
-        "scopes": ["[scope]", "scope", "(scope]", "()"],
+        "scopes": ["(scope", "scope)", "(scope]", "[scope)", "()"],
         "separators": ["", ":  "] + [f":{sep}" for sep in WHITESPACES],
         "descriptions": [
             "",

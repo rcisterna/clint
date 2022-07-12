@@ -2,7 +2,8 @@
 import re
 import string
 
-from .exceptions import GenerationException, ValidationException
+from ..cli.result import Result
+from .exceptions import GenerationException
 
 
 class Footer:
@@ -50,14 +51,14 @@ class Footer:
             description=groups["description"],
         )
 
-    def validate(self) -> bool:
+    def validate(self, result: Result) -> None:
         """
         Validate that all attributes in the class are conventional commits compliant.
 
-        Returns
-        -------
-        bool:
-            True if the object is valid.
+        Parameters
+        ----------
+        result: Result
+            Result object to register errors.
 
         Raises
         ------
@@ -66,17 +67,34 @@ class Footer:
         """
         # pylint: disable=duplicate-code
         if not self.token:
-            raise ValidationException("Token cannot be empty.")
+            result.add_action(
+                action="token_empty",
+                message="Token cannot be empty.",
+                is_error=True,
+            )
         for whitespace in string.whitespace:
             if self.token != "BREAKING CHANGE" and whitespace in self.token:
-                raise ValidationException(
-                    f"Token '{self.token}' cannot have '{whitespace}' char."
+                result.add_action(
+                    action="token_whitespace",
+                    message=f"Token '{self.token}' cannot have '{whitespace}' char.",
+                    is_error=True,
                 )
         if not self.separator:
-            raise ValidationException("Separator cannot be empty.")
+            result.add_action(
+                action="separator_empty",
+                message="Separator cannot be empty.",
+                is_error=True,
+            )
         valid_separators = [": ", " #"]
-        if self.separator not in valid_separators:
-            raise ValidationException(f"Separator '{self.separator}' is not valid.")
+        if self.separator and self.separator not in valid_separators:
+            result.add_action(
+                action="separator_valid",
+                message=f"Separator '{self.separator}' is not valid.",
+                is_error=True,
+            )
         if not self.description:
-            raise ValidationException("Description cannot be empty.")
-        return True
+            result.add_action(
+                action="description_empty",
+                message="Description cannot be empty.",
+                is_error=True,
+            )
