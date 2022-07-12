@@ -7,7 +7,7 @@ import pytest
 
 from clint.validator import Commit, Paragraph, Subject, ValidationException
 
-from .conftest import faker, COMMITS_INFO
+from .conftest import COMMITS_INFO
 
 
 class TestCommitGetParagraphs:
