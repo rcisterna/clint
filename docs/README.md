@@ -19,21 +19,14 @@ that the message is [Conventional Commits compliant](https://www.conventionalcom
 While the implementation is still in alpha state, the only way to install `CLint` will be through `pip` (or tools
 like `poetry` and `pipenv`).
 
-### Pip
-
 ```sh
+# Install with pip
 $ pip install clint-cli
-```
 
-### Poetry
-
-```sh
+# Install with poetry
 $ poetry add clint-cli
-```
 
-### Pipenv
-
-```sh
+# Install with pipenv
 $ pipenv install clint-cli
 ```
 

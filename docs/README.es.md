@@ -20,21 +20,14 @@ la [especificación de Conventional Commits](https://www.conventionalcommits.org
 Mientras la implementación siga en fase alpha, la única forma de instalar `CLint` será a través de `pip` (o herramientas
 como `poetry` y `pipenv`).
 
-### Pip
-
 ```sh
+# Instalar con pip
 $ pip install clint-cli
-```
 
-### Poetry
-
-```sh
+# Instalar con poetry
 $ poetry add clint-cli
-```
 
-### Pipenv
-
-```sh
+# Instalar con pipenv
 $ pipenv install clint-cli
 ```
 
