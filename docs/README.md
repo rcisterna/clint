@@ -19,33 +19,26 @@ that the message is [Conventional Commits compliant](https://www.conventionalcom
 While the implementation is still in alpha state, the only way to install `CLint` will be through `pip` (or tools
 like `poetry` and `pipenv`).
 
-### Pip
-
 ```sh
+# Install with pip
 $ pip install clint-cli
-```
 
-### Poetry
-
-```sh
+# Install with poetry
 $ poetry add clint-cli
-```
 
-### Pipenv
-
-```sh
+# Install with pipenv
 $ pipenv install clint-cli
 ```
 
 ## Key features
 
 - Validate a commit message in the command line.
+- Allow to handle git `commit-msg` hook.
 
 ## Planned features
 
-- Allow to handle git `commit-msg` hook.
-- Make [pre-commit](https://pre-commit.com/) compatible.
 - Validate a commit message in the command line through pipes.
+- Make [pre-commit](https://pre-commit.com/) compatible.
 - Allow to build a commit message through command line prompts.
 
 ## Usage examples
@@ -60,6 +53,18 @@ Your commit message is CC compliant!
 # Validation error for invalid type (typo)
 $ clint "feta(scope): validate this message"
 Validation error: Type 'feta' is not valid.
+```
+
+```sh
+# Enable git hook on /path/to/repo
+$ clint --enable-hook
+Enable hook: Hook enabled at /path/to/repo/.git/hooks/commit-msg
+```
+
+```sh
+# Disable git hook on /path/to/repo
+$ clint --disable-hook
+Disable hook: Hook disabled at /path/to/repo/.git/hooks/commit-msg
 ```
 
 ## Project status

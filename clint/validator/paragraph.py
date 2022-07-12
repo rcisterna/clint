@@ -9,6 +9,7 @@ class Paragraph:
 
     def __init__(self, text: str):
         self.text = text or ""
+        self.footers = ()
         self.is_pure = False
         self.__footers_generated_with = None
         self.__generate_footers()
@@ -63,10 +64,16 @@ class Paragraph:
         """
         # pylint: disable=duplicate-code
         self.__generate_footers()
-        if "\n" in self.text and not self.footers:
+        if self.text.startswith("\n"):
             result.add_action(
-                action="paragraph_newline",
-                message="Paragraph cannot have new lines.",
+                action="paragraph_startnewline",
+                message="Paragraph cannot start with new line.",
+                is_error=True,
+            )
+        if self.text.endswith("\n"):
+            result.add_action(
+                action="paragraph_endnewline",
+                message="Paragraph cannot end with new line.",
                 is_error=True,
             )
         if not self.is_pure:

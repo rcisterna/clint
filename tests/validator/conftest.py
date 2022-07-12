@@ -11,6 +11,25 @@ faker = Faker()
 
 WHITESPACES = [w for w in string.whitespace if w != " "]
 
+COMMITS_INFO = [
+    {"msg": "", "paragraphs": 1},
+    {"msg": faker.sentence(), "paragraphs": 1},
+    {"msg": f"{faker.sentence()}\n\n{faker.paragraph(20)}", "paragraphs": 2},
+    {
+        "msg": f"{faker.sentence()}\n\n{faker.paragraph()}\n\n{faker.paragraph()}",
+        "paragraphs": 3,
+    },
+    {"msg": f"{faker.sentence()}\n\n#{faker.paragraph(20)}", "paragraphs": 2},
+    {
+        "msg": f"{faker.sentence()}"
+        + f"\n\n#{faker.paragraph(20)}"
+        + f"\n\n#{faker.paragraph(20)}",
+        "paragraphs": 3,
+    },
+    {"msg": f"{faker.sentence()}\n\n{faker.paragraph(20)}\n", "paragraphs": 2},
+    {"msg": f"{faker.sentence()}\n\n#{faker.paragraph(20)}\n", "paragraphs": 2},
+]
+
 VALID_DATA = {
     "subject": {
         "types": list(Subject.VALID_COMMIT_TYPES),
@@ -27,7 +46,9 @@ VALID_DATA = {
     "body": {
         "texts": [
             f"{faker.paragraph(10)}",
-            f"{faker.paragraph(20)}",
+            f"#{faker.paragraph(10)}",
+            f"{faker.sentence()}\n{faker.sentence()}",
+            f"#{faker.sentence()}\n#{faker.sentence()}",
             f"token-1: {faker.sentence()}\ntoken-2 #{faker.sentence()}",
         ]
     },
@@ -59,8 +80,6 @@ INVALID_DATA = {
     "body": {
         "texts": [
             "",
-            f"{faker.sentence()}\n{faker.sentence()}\n{faker.sentence()}",
-            f"{faker.paragraph(10)}\n{faker.paragraph(10)}",
             f"{faker.paragraph(10)}\n",
             f"\n{faker.paragraph(10)}",
             f"impure-1: {faker.sentence()}\n"

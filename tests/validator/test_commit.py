@@ -7,26 +7,33 @@ import pytest
 
 from clint.validator import Commit, Paragraph, Subject, ValidationException
 
-from .conftest import faker
+from .conftest import COMMITS_INFO
+
+
+class TestCommitGetParagraphs:
+    """Tests for clint.validator.Commit.get_paragraphs method."""
+
+    @pytest.mark.parametrize("commit_info", COMMITS_INFO)
+    def test_valid_generation(self, commit_info):
+        """Test that all correct messages can generate a new commit object."""
+        paragraphs = Commit.get_paragraphs(msg=commit_info["msg"])
+        assert len(paragraphs) == commit_info["paragraphs"]
+        if paragraphs:
+            assert not paragraphs[-1].endswith("\n")
 
 
 class TestCommitGenerate:
     """Tests for clint.validator.Commit.generate method."""
 
-    @pytest.mark.parametrize(
-        "message,paragraphs",
-        [
-            ("", 0),
-            (faker.sentence(), 0),
-            (f"{faker.sentence()}\n\n{faker.paragraph(20)}", 1),
-            (f"{faker.sentence()}\n\n{faker.paragraph()}\n\n{faker.paragraph()}", 2),
-        ],
-    )
-    def test_valid_generation(self, message, paragraphs):
+    @pytest.mark.parametrize("commit_info", COMMITS_INFO)
+    def test_valid_generation(self, commit_info):
         """Test that all correct messages can generate a new commit object."""
-        commit = Commit.generate(msg=message)
+        commit = Commit.generate(msg=commit_info["msg"])
         assert isinstance(commit, Commit)
         assert isinstance(commit.subject, Subject)
+        paragraphs = (
+            commit_info["paragraphs"] - 1 if commit_info["paragraphs"] > 0 else 0
+        )
         assert len(commit.paragraphs) == paragraphs
         for paragraph in commit.paragraphs:
             assert isinstance(paragraph, Paragraph)

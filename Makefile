@@ -63,12 +63,12 @@ tests-ci-version: ## Run the CI version tests
 
 .PHONY: isort
 isort:  ## Run isort over staged files
-	poetry run isort clint tests
+	@poetry run isort clint tests
 
 .PHONY: black
 black:  ## Run black over staged files
-	poetry run isort clint tests
+	@poetry run black clint tests
 
 .PHONY: pylint
 pylint:  ## Run pylint over staged files
-	poetry run pylint clint tests --output-format=colorized
+	@poetry run pylint clint tests --output-format=colorized
