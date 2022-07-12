@@ -1,5 +1,5 @@
 """Commit validator."""
-from typing import Optional
+from typing import Optional, List
 
 from ..cli.result import Result
 from .paragraph import Paragraph
@@ -13,9 +13,26 @@ class Commit:
     OPERATION_BASE_ERROR_CODE = 0
 
     def __init__(self, text: str):
-        split = text.split("\n\n")
+        split = Commit.get_paragraphs(msg=text)
         self.subject = Subject.generate(split.pop(0))
         self.paragraphs = tuple(Paragraph.generate(p) for p in split)
+
+    @staticmethod
+    def get_paragraphs(msg: str) -> List[str]:
+        """
+        Get a list of paragraphs from commit message.
+
+        Parameters
+        ----------
+        msg: str
+            Commit message.
+
+        Returns
+        -------
+        list of str
+            List of paragraphs, without trailing newline.
+        """
+        return msg.rstrip("\n").split("\n\n")
 
     @staticmethod
     def generate(msg: str) -> Optional["Commit"]:
