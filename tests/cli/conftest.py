@@ -1,12 +1,11 @@
 """Tests suite for CLI classes."""
 import os
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, DEFAULT
 
 import pytest
 from click.testing import CliRunner
 
 from clint import validator
-from clint.cli.result import Result
 
 
 @pytest.fixture
@@ -37,6 +36,9 @@ def clean_hook_handler_methods(request: pytest.FixtureRequest):
     request.cls.mock_hook_get_repo_root.side_effect = None
     request.cls.mock_hook_enable.side_effect = None
     request.cls.mock_hook_disable.side_effect = None
+    request.cls.mock_hook_get_repo_root.return_value = DEFAULT
+    request.cls.mock_hook_enable.return_value = DEFAULT
+    request.cls.mock_hook_disable.return_value = DEFAULT
 
 
 @pytest.fixture(scope="class")
