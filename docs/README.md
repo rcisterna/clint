@@ -33,12 +33,12 @@ $ pipenv install clint-cli
 ## Key features
 
 - Validate a commit message in the command line.
+- Allow to handle git `commit-msg` hook.
 
 ## Planned features
 
-- Allow to handle git `commit-msg` hook.
-- Make [pre-commit](https://pre-commit.com/) compatible.
 - Validate a commit message in the command line through pipes.
+- Make [pre-commit](https://pre-commit.com/) compatible.
 - Allow to build a commit message through command line prompts.
 
 ## Usage examples

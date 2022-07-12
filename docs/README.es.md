@@ -34,12 +34,12 @@ $ pipenv install clint-cli
 ## Características principales
 
 - Valida un mensaje en la línea de comandos.
+- Permitir funcionar como manejador del hook `commit-msg` de git.
 
 ## Características planificadas
 
-- Permitir funcionar como manejador del hook `commit-msg` de git.
-- Hacer compatible con [pre-commit](https://pre-commit.com/).
 - Valida un mensaje en la línea de comandos a través de pipes.
+- Hacer compatible con [pre-commit](https://pre-commit.com/).
 - Permite construir un mensaje de commit a través de preguntas en la línea de comandos.
 
 ## Ejemplos de uso
