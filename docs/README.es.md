@@ -56,6 +56,18 @@ $ clint "feta(scope): validate this message"
 Validation error: Type 'feta' is not valid.
 ```
 
+```sh
+# Habilitar hook de git en /path/to/repo
+$ clint --enable-hook
+Enable hook: Hook enabled at /path/to/repo/.git/hooks/commit-msg
+```
+
+```sh
+# Deshabilitar hook de git en /path/to/repo
+$ clint --disable-hook
+Disable hook: Hook disabled at /path/to/repo/.git/hooks/commit-msg
+```
+
 ## Estado del proyecto
 
 `CLint` está actualmente bajo desarrollo activo. El objetivo es alcanzar al menos
