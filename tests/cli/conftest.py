@@ -1,6 +1,6 @@
 """Tests suite for CLI classes."""
 import os
-from unittest.mock import MagicMock, DEFAULT
+from unittest.mock import DEFAULT, MagicMock
 
 import pytest
 from click.testing import CliRunner

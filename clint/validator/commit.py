@@ -1,9 +1,9 @@
 """Commit validator."""
 from typing import Optional
 
+from ..cli.result import Result
 from .paragraph import Paragraph
 from .subject import Subject
-from ..cli.result import Result
 
 
 class Commit:

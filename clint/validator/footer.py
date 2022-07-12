@@ -2,8 +2,8 @@
 import re
 import string
 
-from .exceptions import GenerationException
 from ..cli.result import Result
+from .exceptions import GenerationException
 
 
 class Footer:

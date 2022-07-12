@@ -3,7 +3,7 @@
 import pytest
 
 from clint.cli.result import Result
-from clint.validator import Subject, ValidationException
+from clint.validator import Subject
 
 from .conftest import INVALID_DATA, VALID_DATA
 

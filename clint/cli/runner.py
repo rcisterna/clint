@@ -1,5 +1,6 @@
 """CLint runner."""
 from clint import validator
+
 from .result import Result
 
 
