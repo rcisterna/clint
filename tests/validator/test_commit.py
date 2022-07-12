@@ -20,6 +20,13 @@ class TestCommitGenerate:
             (faker.sentence(), 0),
             (f"{faker.sentence()}\n\n{faker.paragraph(20)}", 1),
             (f"{faker.sentence()}\n\n{faker.paragraph()}\n\n{faker.paragraph()}", 2),
+            (f"{faker.sentence()}\n\n#{faker.paragraph(20)}", 1),
+            (
+                f"{faker.sentence()}"
+                + f"\n\n#{faker.paragraph(20)}"
+                + f"\n\n#{faker.paragraph(20)}",
+                2,
+            ),
         ],
     )
     def test_valid_generation(self, message, paragraphs):
