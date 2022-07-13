@@ -17,8 +17,9 @@ la [especificación de Conventional Commits](https://www.conventionalcommits.org
 
 ## Instalación
 
-Mientras la implementación siga en fase alpha, la única forma de instalar `CLint` será a través de `pip` (o herramientas
-como `poetry` y `pipenv`).
+Por ahora, la única forma de instalar `CLint` es a través de `pip` (o de herramientas como `poetry` y `pipenv`, que
+utilizan `pip` por detrás), pero estamos trabajando para que `CLint` esté disponible a través de gestores de paquetes,
+como `homebrew`, `chocolatey` y otros.
 
 ```sh
 # Instalar con pip
