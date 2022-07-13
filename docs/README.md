@@ -16,8 +16,9 @@ that the message is [Conventional Commits compliant](https://www.conventionalcom
 
 ## Installation
 
-While the implementation is still in alpha state, the only way to install `CLint` will be through `pip` (or tools
-like `poetry` and `pipenv`).
+For now, the only way to install `CLint` is through `pip` (or tools like `poetry` and `pipenv`, which use `pip` behind
+the scenes), but we are working on making `CLint` available through package managers, like `homebrew`, `chocolatey` and
+others.
 
 ```sh
 # Install with pip
