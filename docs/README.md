@@ -83,9 +83,9 @@ Disable hook: Hook disabled at /path/to/repo/.git/hooks/commit-msg
 
 ## Project status
 
-`CLint` is currently under active development. The goal is to achieve at least the [planned features](#planned-features)
-, and then continue maintaining the code, making it compatible with future versions of Python and the libraries used in
-the project.
+`CLint` is currently in **beta** status, and is under active development. The goal is to achieve at least
+the [planned features](#planned-features), and then continue maintaining the code, making it compatible with future
+versions of Python and the libraries used in the project.
 
 ## Source
 
