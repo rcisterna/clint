@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2022-07-14
+### Added
+- Add support for messages from shell pipes.
+- Manually show help when no arguments.
+
+### Changed
+- Add tests for shell pipe input.
+- Add new examples for readme.
+- Add message for beta status for readme.
+- Add changelog link for readme.
+- Update technologies for readme.
+
 ## [0.4.1] - 2022-07-14
 ### Fixed
 - Change metadata_production fixture to class scope.
@@ -116,7 +128,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add readme title.
 - Config dependencies.
 
-[Unreleased]: https://github.com/rcisterna/clint/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/rcisterna/clint/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/rcisterna/clint/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/rcisterna/clint/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/rcisterna/clint/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/rcisterna/clint/compare/v0.3.1...v0.3.2
