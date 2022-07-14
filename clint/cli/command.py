@@ -4,8 +4,7 @@ from typing import TextIO
 
 import click
 
-import clint
-
+from .. import __version__
 from ..result import Result
 from .runner import Runner
 
@@ -27,7 +26,7 @@ class Command:
         default=None,
         help="Enable/Disable CLint as a handler for git 'commit-msg' hook.",
     )
-    @click.version_option(clint.__version__)
+    @click.version_option(__version__)
     def entrypoint(
         message: click.STRING,
         file: TextIO,
