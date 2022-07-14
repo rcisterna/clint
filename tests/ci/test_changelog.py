@@ -13,11 +13,11 @@ class TestChangelog:
     changelog_dir: str
     metadata_current: dict
 
-    def test_changelog_exists(self):
+    def test_file_exists(self):
         """Verify that changelog file exists."""
         assert Path(self.changelog_dir).is_file()
 
-    def test_changelog_current_version(self):
+    def test_contains_current_version(self):
         """Verify that changelog contains an entry for the current version."""
         with open(self.changelog_dir, mode="r", encoding="utf8") as changelog:
             changelog_content = changelog.read()
