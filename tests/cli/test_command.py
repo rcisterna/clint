@@ -53,6 +53,21 @@ class TestCommandEntrypoint:
         assert cmd_result.exit_code == result.return_code
 
     @pytest.mark.parametrize("result", results)
+    def test_with_pipe_message(self, cli_runner, sentence, result):
+        """Test invocation of the entrypoint with message from shell pipe."""
+        self.mock_runner_validate.reset_mock()
+        self.mock_runner_validate.return_value = result
+        self.mock_runner_change_hook_handler.reset_mock()
+        self.mock_runner_help.reset_mock()
+        self.mock_command_show_result.reset_mock()
+        cmd_result = cli_runner.invoke(Command.entrypoint, input=f'{sentence}\n')
+        assert self.mock_runner_validate.call_args_list == [call(message=sentence)]
+        assert not self.mock_runner_change_hook_handler.called
+        assert not self.mock_runner_help.called
+        assert self.mock_command_show_result.call_args_list == [call(result=result)]
+        assert cmd_result.exit_code == result.return_code
+
+    @pytest.mark.parametrize("result", results)
     def test_with_file(self, cli_runner, sentence, result):
         """Test invocation of the entrypoint with file."""
         self.mock_runner_validate.reset_mock()
