@@ -1,4 +1,4 @@
-name: Version validation
+name: CI validate version
 
 on:
   pull_request:

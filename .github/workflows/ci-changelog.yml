@@ -1,4 +1,4 @@
-name: Changelog validation
+name: CI validate changelog
 
 on:
   pull_request:
