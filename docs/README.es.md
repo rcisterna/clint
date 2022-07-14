@@ -36,10 +36,10 @@ $ pipenv install clint-cli
 
 - Valida un mensaje en la línea de comandos.
 - Permitir funcionar como manejador del hook `commit-msg` de git.
+- Valida un mensaje en la línea de comandos a través de pipes.
 
 ## Características planificadas
 
-- Valida un mensaje en la línea de comandos a través de pipes.
 - Hacer compatible con [pre-commit](https://pre-commit.com/).
 - Permite construir un mensaje de commit a través de preguntas en la línea de comandos.
 
@@ -52,9 +52,22 @@ Your commit message is CC compliant!
 ```
 
 ```sh
+# Valida desde archivo
+$ echo "feat(scope): validate this message" > commit_message.txt
+$ clint --file commit_message.txt
+Your commit message is CC compliant!
+```
+
+```sh
+# Valida a través de pipes
+$ cat commit_message.txt | clint
+Your commit message is CC compliant!
+```
+
+```sh
 # Error por tipo incorrecto (en este caso, un error al escribir)
-$ clint "feta(scope): validate this message"
-Validation error: Type 'feta' is not valid.
+$ echo "feta(scope): validate this message" | clint
+type_valid: Type 'feta' is not valid.
 ```
 
 ```sh
