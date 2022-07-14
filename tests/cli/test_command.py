@@ -60,7 +60,7 @@ class TestCommandEntrypoint:
         self.mock_runner_change_hook_handler.reset_mock()
         self.mock_runner_help.reset_mock()
         self.mock_command_show_result.reset_mock()
-        cmd_result = cli_runner.invoke(Command.entrypoint, input=f'{sentence}\n')
+        cmd_result = cli_runner.invoke(Command.entrypoint, input=f"{sentence}\n")
         assert self.mock_runner_validate.call_args_list == [call(message=sentence)]
         assert not self.mock_runner_change_hook_handler.called
         assert not self.mock_runner_help.called
