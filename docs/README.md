@@ -11,8 +11,9 @@ that the message is [Conventional Commits compliant](https://www.conventionalcom
 
 ## Technologies
 
-- [Python](https://www.python.org/) 3.7.2+
-- [Poetry](https://python-poetry.org/)
+- [python](https://www.python.org/), for its awesomeness. Supported versions: 3.7.2+
+- [poetry](https://python-poetry.org/), for packaging and dependency management
+- [change](https://github.com/adamtabrams/change), to help generate the changelog
 
 ## Installation
 
@@ -35,10 +36,10 @@ $ pipenv install clint-cli
 
 - Validate a commit message in the command line.
 - Allow to handle git `commit-msg` hook.
+- Validate a commit message in the command line through pipes.
 
 ## Planned features
 
-- Validate a commit message in the command line through pipes.
 - Make [pre-commit](https://pre-commit.com/) compatible.
 - Allow to build a commit message through command line prompts.
 
@@ -51,9 +52,22 @@ Your commit message is CC compliant!
 ```
 
 ```sh
+# Validate from file
+$ echo "feat(scope): validate this message" > commit_message.txt
+$ clint --file commit_message.txt
+Your commit message is CC compliant!
+```
+
+```sh
+# Validate through pipes
+$ cat commit_message.txt | clint
+Your commit message is CC compliant!
+```
+
+```sh
 # Validation error for invalid type (typo)
-$ clint "feta(scope): validate this message"
-Validation error: Type 'feta' is not valid.
+$ echo "feta(scope): validate this message" | clint
+type_valid: Type 'feta' is not valid.
 ```
 
 ```sh
@@ -68,11 +82,15 @@ $ clint --disable-hook
 Disable hook: Hook disabled at /path/to/repo/.git/hooks/commit-msg
 ```
 
+## Changelog
+
+You can view the history of changes in the project [changelog](../CHANGELOG.md).
+
 ## Project status
 
-`CLint` is currently under active development. The goal is to achieve at least the [planned features](#planned-features)
-, and then continue maintaining the code, making it compatible with future versions of Python and the libraries used in
-the project.
+`CLint` is currently in **beta** status, and is under active development. The goal is to achieve at least
+the [planned features](#planned-features), and then continue maintaining the code, making it compatible with future
+versions of Python and the libraries used in the project.
 
 ## Source
 

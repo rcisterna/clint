@@ -12,8 +12,9 @@ la [especificación de Conventional Commits](https://www.conventionalcommits.org
 
 ## Tecnologías
 
-- [Python](https://www.python.org/) 3.7.2+
-- [Poetry](https://python-poetry.org/)
+- [python](https://www.python.org/), por ser genial. Versiones soportadas: 3.7.2+
+- [poetry](https://python-poetry.org/), para el empaquetado y la administración de dependencias
+- [change](https://github.com/adamtabrams/change), para ayudar a generar el registro de cambios
 
 ## Instalación
 
@@ -36,10 +37,10 @@ $ pipenv install clint-cli
 
 - Valida un mensaje en la línea de comandos.
 - Permitir funcionar como manejador del hook `commit-msg` de git.
+- Valida un mensaje en la línea de comandos a través de pipes.
 
 ## Características planificadas
 
-- Valida un mensaje en la línea de comandos a través de pipes.
 - Hacer compatible con [pre-commit](https://pre-commit.com/).
 - Permite construir un mensaje de commit a través de preguntas en la línea de comandos.
 
@@ -52,9 +53,22 @@ Your commit message is CC compliant!
 ```
 
 ```sh
+# Valida desde archivo
+$ echo "feat(scope): validate this message" > commit_message.txt
+$ clint --file commit_message.txt
+Your commit message is CC compliant!
+```
+
+```sh
+# Valida a través de pipes
+$ cat commit_message.txt | clint
+Your commit message is CC compliant!
+```
+
+```sh
 # Error por tipo incorrecto (en este caso, un error al escribir)
-$ clint "feta(scope): validate this message"
-Validation error: Type 'feta' is not valid.
+$ echo "feta(scope): validate this message" | clint
+type_valid: Type 'feta' is not valid.
 ```
 
 ```sh
@@ -69,9 +83,13 @@ $ clint --disable-hook
 Disable hook: Hook disabled at /path/to/repo/.git/hooks/commit-msg
 ```
 
+## Registro de cambios
+
+Puedes ver el historial de cambios en el [changelog](../CHANGELOG.md) del proyecto.
+
 ## Estado del proyecto
 
-`CLint` está actualmente bajo desarrollo activo. El objetivo es alcanzar al menos
+`CLint` está actualmente en estado **beta**, y está bajo desarrollo activo. El objetivo es alcanzar al menos
 las [características planificadas](#caractersticas-planificadas), para luego continuar manteniendo el código compatible
 con futuras versiones de Python y de las bibliotecas que utiliza.
 

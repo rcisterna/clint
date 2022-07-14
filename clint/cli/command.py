@@ -1,11 +1,11 @@
 """CLint command line interface."""
+import logging
 import sys
 from typing import TextIO
 
 import click
 
-import clint
-
+from .. import __version__
 from ..result import Result
 from .runner import Runner
 
@@ -14,8 +14,19 @@ class Command:
     """Command class for CLI arguments parsing."""
 
     @staticmethod
-    @click.command(no_args_is_help=True)
-    @click.argument("message", type=click.STRING, required=False)
+    # pylint: disable=unused-argument
+    def get_message(ctx: click.Context, param: click.Parameter, value: str) -> str:
+        """Get the commit message, from parameter value or from stdin stream."""
+        stdin = click.get_text_stream("stdin")
+        if not value and not stdin.isatty():
+            return stdin.read().strip()
+        return value
+
+    @staticmethod
+    @click.command()
+    @click.argument(
+        "message", callback=get_message.__func__, type=click.STRING, required=False
+    )
     @click.option(
         "-f",
         "--file",
@@ -27,7 +38,7 @@ class Command:
         default=None,
         help="Enable/Disable CLint as a handler for git 'commit-msg' hook.",
     )
-    @click.version_option(clint.__version__)
+    @click.version_option(__version__)
     def entrypoint(
         message: click.STRING,
         file: TextIO,
@@ -35,11 +46,14 @@ class Command:
     ):
         """CLint: A Conventional Commits Linter for your shell."""
         result: Result = None
+        logging.info("enable_hook: %s", enable_hook)
         if enable_hook is None:
             if message:
                 result = Runner.validate(message=message)
             elif file:
                 result = Runner.validate(message=file.read())
+            else:
+                result = Runner.help()
         else:
             result = Runner.change_hook_handler(is_enabling=enable_hook)
         Command.show_result(result=result)
