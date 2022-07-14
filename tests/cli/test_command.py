@@ -10,6 +10,7 @@ from clint.result import Result
 @pytest.mark.usefixtures(
     "mock_runner_validate",
     "mock_runner_change_hook_handler",
+    "mock_runner_help",
     "mock_command_show_result",
 )
 class TestCommandEntrypoint:
@@ -17,6 +18,7 @@ class TestCommandEntrypoint:
 
     mock_runner_validate: MagicMock
     mock_runner_change_hook_handler: MagicMock
+    mock_runner_help: MagicMock
     mock_command_show_result: MagicMock
 
     results = [
@@ -41,10 +43,12 @@ class TestCommandEntrypoint:
         self.mock_runner_validate.reset_mock()
         self.mock_runner_validate.return_value = result
         self.mock_runner_change_hook_handler.reset_mock()
+        self.mock_runner_help.reset_mock()
         self.mock_command_show_result.reset_mock()
         cmd_result = cli_runner.invoke(Command.entrypoint, [sentence])
         assert self.mock_runner_validate.call_args_list == [call(message=sentence)]
         assert not self.mock_runner_change_hook_handler.called
+        assert not self.mock_runner_help.called
         assert self.mock_command_show_result.call_args_list == [call(result=result)]
         assert cmd_result.exit_code == result.return_code
 
@@ -54,6 +58,7 @@ class TestCommandEntrypoint:
         self.mock_runner_validate.reset_mock()
         self.mock_runner_validate.return_value = result
         self.mock_runner_change_hook_handler.reset_mock()
+        self.mock_runner_help.reset_mock()
         self.mock_command_show_result.reset_mock()
         with cli_runner.isolated_filesystem():
             filename = "example.txt"
@@ -62,6 +67,7 @@ class TestCommandEntrypoint:
             cmd_result = cli_runner.invoke(Command.entrypoint, ["--file", filename])
         assert self.mock_runner_validate.call_args_list == [call(message=sentence)]
         assert not self.mock_runner_change_hook_handler.called
+        assert not self.mock_runner_help.called
         assert self.mock_command_show_result.call_args_list == [call(result=result)]
         assert cmd_result.exit_code == result.return_code
 
@@ -69,11 +75,15 @@ class TestCommandEntrypoint:
         """Test invocation of the entrypoint with no arguments."""
         self.mock_runner_validate.reset_mock()
         self.mock_runner_change_hook_handler.reset_mock()
+        self.mock_runner_help.reset_mock()
         self.mock_command_show_result.reset_mock()
         cmd_result = cli_runner.invoke(Command.entrypoint)
         assert not self.mock_runner_validate.called
         assert not self.mock_runner_change_hook_handler.called
-        assert not self.mock_command_show_result.called
+        assert self.mock_runner_help.call_args_list == [call()]
+        assert self.mock_command_show_result.call_args_list == [
+            call(result=self.mock_runner_help.return_value)
+        ]
         assert cmd_result.exit_code == 0
 
     @pytest.mark.parametrize("hook_flag", ["--enable-hook", "--disable-hook"])
@@ -81,11 +91,13 @@ class TestCommandEntrypoint:
         """Test invocation of the entrypoint for git hook."""
         self.mock_runner_validate.reset_mock()
         self.mock_runner_change_hook_handler.reset_mock()
+        self.mock_runner_help.reset_mock()
         self.mock_command_show_result.reset_mock()
         hook_handler_calls = [call(is_enabling=bool(hook_flag == "--enable-hook"))]
         cmd_result = cli_runner.invoke(Command.entrypoint, [hook_flag])
         assert not self.mock_runner_validate.called
         assert self.mock_runner_change_hook_handler.call_args_list == hook_handler_calls
+        assert not self.mock_runner_help.called
         assert self.mock_command_show_result.called
         assert cmd_result.exit_code == 0
 

@@ -1,4 +1,5 @@
 """CLint command line interface."""
+import logging
 import sys
 from typing import TextIO
 
@@ -13,14 +14,12 @@ class Command:
     """Command class for CLI arguments parsing."""
 
     @staticmethod
-    def get_message(
-        ctx: click.Context, param: click.Parameter, value: str
-    ) -> str:  # pylint: disable=unused-argument
+    # pylint: disable=unused-argument
+    def get_message(ctx: click.Context, param: click.Parameter, value: str) -> str:
         """Get the commit message, from parameter value or from stdin stream."""
-        if not value and not click.get_text_stream("stdin").isatty():
-            return click.get_text_stream("stdin").read().strip()
-        if value is None:
-            raise click.exceptions.MissingParameter(ctx=ctx, param=param)
+        stdin = click.get_text_stream("stdin")
+        if not value and not stdin.isatty():
+            return stdin.read().strip()
         return value
 
     @staticmethod
@@ -47,11 +46,14 @@ class Command:
     ):
         """CLint: A Conventional Commits Linter for your shell."""
         result: Result = None
+        logging.info("enable_hook: %s", enable_hook)
         if enable_hook is None:
             if message:
                 result = Runner.validate(message=message)
             elif file:
                 result = Runner.validate(message=file.read())
+            else:
+                result = Runner.help()
         else:
             result = Runner.change_hook_handler(is_enabling=enable_hook)
         Command.show_result(result=result)

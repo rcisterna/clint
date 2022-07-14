@@ -72,6 +72,15 @@ def mock_runner_change_hook_handler(request, class_mocker):
 
 
 @pytest.fixture(scope="class")
+def mock_runner_help(request, class_mocker):
+    """Fixture to patch cli.runner.Runner.help method."""
+    request.cls.mock_runner_help = class_mocker.patch(
+        "clint.cli.runner.Runner.help",
+        return_value=Result(operation="test", base_error_code=0),
+    )
+
+
+@pytest.fixture(scope="class")
 def mock_commit_generate(request, class_mocker):
     """Fixture to patch clint.validator.Commit.generate method."""
     request.cls.mock_commit_generate = class_mocker.patch(

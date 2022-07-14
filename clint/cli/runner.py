@@ -1,12 +1,20 @@
 """CLint runner."""
-from clint import validator
+import click
 
+from .. import validator
 from ..hook_handler import HookException, HookHandler
 from ..result import Result
 
 
 class Runner:
     """Runner class for running the validator classes."""
+
+    @staticmethod
+    def help() -> Result:
+        """Show default help message."""
+        ctx = click.get_current_context()
+        click.echo(ctx.get_help())
+        return Result(operation="Help", base_error_code=0)
 
     @staticmethod
     def validate(message: str) -> Result:
