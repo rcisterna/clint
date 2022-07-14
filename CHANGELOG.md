@@ -9,21 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add change_hook_handler method to runner class.
 
 ### Changed
-- Better modularization (#39).
 - Refactor clint subpackages.
-- Change version to 0.4.0.
 
 ## [0.3.2] - 2022-07-13
 ### Changed
-- Change status to beta (#37).
 - Change project status to beta.
 - Update installation information.
-- Change version to 0.3.2.
 - Rename names of workflows jobs.
 
 ## [0.3.1] - 2022-07-12
 ### Fixed
-- Solve validation issues (#35).
 - Add validation for comment paragraphs.
 - Delete trailing newline in commit messages.
 - Solve linters issues.
@@ -32,12 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add install instructions in one code section.
 - Change key features.
 - Add hook management examples.
-- Change version to 0.3.1.
 
 ## [0.3.0] - 2022-07-11
 ### Added
-- Add result management (#32).
-- Implement result class.
+- Add result management class.
 
 ### Fixed
 - Solve error in makefile.
@@ -50,11 +43,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix command tests.
 - Update makefile targets.
 - Fix linters issues.
-- Change version to 0.3.0.
 
 ## [0.2.0] - 2022-07-10
 ### Added
-- Add git hook support (#30).
+- Add git hook support.
 - Mark message argument as not required.
 - Add support to open files.
 - Add version option.
@@ -71,23 +63,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add command class tests for hook invocations.
 - Change approach to get root directory.
 - Add hook handler class tests.
-- Delete unused variable.
-- Change version to 0.2.0.
 
 ## [0.1.3] - 2022-07-06
 ### Changed
-- Add installation instructions (#26).
 - Add installation instructions.
-- Change version to 0.1.3.
 
 ## [0.1.2] - 2022-07-06
 ### Fixed
-- Validation version events (#25).
 - Change version validation to run only on PRs.
 
 ### Changed
 - Split test-and-lint action.
-- Change version to 0.1.2.
 
 ## [0.1.1] - 2022-07-06
 ### Fixed
@@ -96,33 +82,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change python version to string.
 
 ### Changed
-- Validate version changes (#22).
 - Validate package version against metadata.
 - Add ci version validation test.
 - Add version validation github action.
 - Add more pypi classifiers.
 - Change project name for clint-cli.
-- Change version to 0.1.1.
 - Add publish github action.
 
 ## [0.1.0] - 2022-07-05
 ### Added
-- Add repl target to makefile (#11).
-- Enhance makefile check targets output (#5).
-- Validate numpy docstrings (#4).
-- First validator implementation (#3).
-- Add validation workflow (#1).
+- Add repl target to makefile.
+- Enhance makefile check targets output.
+- Validate numpy docstrings.
+- First validator implementation.
+- Add validation workflow.
 
 ### Changed
-- Improve readme (#21).
-- Add codeowners file (#19).
-- Object oriented approach (#10).
-- Change validation tools (#2).
+- Improve readme.
+- Add codeowners file.
+- Object-oriented approach.
 - Add makefile for ease of use.
 - Add coverage tool.
 - Add readme title.
 - Config dependencies.
-- Initial commit.
 
 [Unreleased]: https://github.com/rcisterna/clint/compare/v0.4.0...HEAD
 [0.4.0]: https://github.com/rcisterna/clint/compare/v0.3.2...v0.4.0
