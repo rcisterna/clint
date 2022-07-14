@@ -6,9 +6,7 @@ import click
 
 import clint
 
-from .exceptions import HookException
-from .hook_handler import HookHandler
-from .result import Result
+from ..result import Result
 from .runner import Runner
 
 
@@ -43,22 +41,7 @@ class Command:
             elif file:
                 result = Runner.validate(message=file.read())
         else:
-            try:
-                handler = HookHandler()
-            except HookException as exception:
-                result = Result(
-                    operation=HookHandler.OPERATION_NAME,
-                    base_error_code=HookHandler.OPERATION_BASE_ERROR_CODE,
-                ).add_action(
-                    action=f"{'enable' if enable_hook else 'disable'} hook",
-                    message=str(exception),
-                    is_error=True,
-                )
-            else:
-                if enable_hook:
-                    result = handler.enable()
-                else:
-                    result = handler.disable()
+            result = Runner.change_hook_handler(is_enabling=enable_hook)
         Command.show_result(result=result)
         sys.exit(result.return_code)
 

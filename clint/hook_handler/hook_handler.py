@@ -2,8 +2,8 @@
 import os
 from pathlib import Path
 
+from ..result import Result
 from .exceptions import HookException
-from .result import Result
 
 
 class HookHandler:

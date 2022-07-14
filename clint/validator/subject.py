@@ -2,7 +2,7 @@
 import re
 from typing import Optional
 
-from ..cli.result import Result
+from ..result import Result
 from .exceptions import GenerationException
 
 
