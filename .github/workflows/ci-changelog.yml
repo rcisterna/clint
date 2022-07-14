@@ -1,11 +1,11 @@
-name: Version validation
+name: CI validate changelog
 
 on:
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  run_ci_version_tests:
+  run_ci_changelog_tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -29,5 +29,5 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
-      - name: Run CI version tests
-        run: make tests-ci-version
+      - name: Run CI changelog tests
+        run: make tests-ci-changelog

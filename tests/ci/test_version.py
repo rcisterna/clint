@@ -1,6 +1,4 @@
-"""Test suite for special validations in CI."""
-from unittest.mock import MagicMock
-
+"""Test suite for special version validations in CI."""
 import pytest
 
 
@@ -9,8 +7,8 @@ import pytest
 class TestVersion:
     """Test for version."""
 
-    metadata_current: MagicMock
-    metadata_production: MagicMock
+    metadata_current: dict
+    metadata_production: dict
 
     def test_is_different(self):
         """Verify current clint version is distinct to production version."""
