@@ -13,8 +13,21 @@ class Command:
     """Command class for CLI arguments parsing."""
 
     @staticmethod
-    @click.command(no_args_is_help=True)
-    @click.argument("message", type=click.STRING, required=False)
+    def get_message(
+        ctx: click.Context, param: click.Parameter, value: str
+    ) -> str:  # pylint: disable=unused-argument
+        """Get the commit message, from parameter value or from stdin stream."""
+        if not value and not click.get_text_stream("stdin").isatty():
+            return click.get_text_stream("stdin").read().strip()
+        if value is None:
+            raise click.exceptions.MissingParameter(ctx=ctx, param=param)
+        return value
+
+    @staticmethod
+    @click.command()
+    @click.argument(
+        "message", callback=get_message.__func__, type=click.STRING, required=False
+    )
     @click.option(
         "-f",
         "--file",
