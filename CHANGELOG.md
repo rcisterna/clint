@@ -9,15 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change metadata_production fixture to class scope.
 
 ### Changed
-- Rename tests for changelog.
-- Rename workflows.
-- Change version to 0.4.1.
-- Add workflow for changelog validation.
-- Update test targets for makefile.
-- Add changelog tests marked for ci.
-- Delete unimportant entries for changelog.
-- Delete unreleased section for changelog.
 - Add changelog file.
+- Add changelog tests marked for ci.
+- Update test targets for makefile.
+- Add workflow for changelog validation.
 
 ## [0.4.0] - 2022-07-14
 ### Added
