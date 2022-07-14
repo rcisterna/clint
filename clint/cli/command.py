@@ -6,9 +6,8 @@ import click
 
 import clint
 
-from .exceptions import HookException
-from .hook_handler import HookHandler
-from .result import Result
+from ..hook_handler import HookException, HookHandler
+from ..result import Result
 from .runner import Runner
 
 

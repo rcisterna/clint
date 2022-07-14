@@ -1,5 +1,5 @@
 """Paragraph validator."""
-from ..cli.result import Result
+from ..result import Result
 from .exceptions import GenerationException
 from .footer import Footer
 

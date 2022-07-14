@@ -1,7 +1,7 @@
 """CLint runner."""
 from clint import validator
 
-from .result import Result
+from ..result import Result
 
 
 class Runner:  # pylint: disable=too-few-public-methods

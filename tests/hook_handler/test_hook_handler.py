@@ -3,13 +3,12 @@ from unittest.mock import MagicMock, call
 
 import pytest
 
-from clint.cli.exceptions import HookException
-from clint.cli.hook_handler import HookHandler
+from clint.hook_handler import HookException, HookHandler
 
 
 @pytest.mark.usefixtures("mock_hook_os_getcwd", "valid_path")
 class TestHookHandlerGetRepoRoot:
-    """Tests for clint.cli.hook_handler.HookHandler._get_repo_root method."""
+    """Tests for clint.hook_handler.hook_handler.HookHandler._get_repo_root method."""
 
     mock_hook_os_getcwd: MagicMock
     valid_path: str
@@ -34,7 +33,7 @@ class TestHookHandlerGetRepoRoot:
 
 @pytest.mark.usefixtures("mock_hook_get_repo_root")
 class TestHookHandlerIsEnabled:
-    """Tests for clint.cli.hook_handler.HookHandler.is_enabled property."""
+    """Tests for clint.hook_handler.hook_handler.HookHandler.is_enabled property."""
 
     def test_no_hooks_file(self, mock_hook_path_is_file):
         """Test property if no hooks file."""
@@ -46,7 +45,7 @@ class TestHookHandlerIsEnabled:
         """Test property if no hooks file."""
         mock_hook_path_is_file.return_value = True
         mocked_open = mocker.mock_open(read_data=HookHandler.COMMAND)
-        mocker.patch("clint.cli.hook_handler.open", mocked_open)
+        mocker.patch("clint.hook_handler.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
         assert hook_handler.is_enabled
 
@@ -54,7 +53,7 @@ class TestHookHandlerIsEnabled:
         """Test property if no hooks file."""
         mock_hook_path_is_file.return_value = True
         mocked_open = mocker.mock_open(read_data=sentence)
-        mocker.patch("clint.cli.hook_handler.open", mocked_open)
+        mocker.patch("clint.hook_handler.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
         assert not hook_handler.is_enabled
 
@@ -63,7 +62,7 @@ class TestHookHandlerIsEnabled:
     "mock_hook_get_repo_root", "mock_hook_is_enabled", "mock_hook_os_chmod"
 )
 class TestHookHandlerEnable:
-    """Tests for clint.cli.hook_handler.HookHandler.enable method."""
+    """Tests for clint.hook_handler.hook_handler.HookHandler.enable method."""
 
     mock_hook_is_enabled: MagicMock
     mock_hook_os_chmod: MagicMock
@@ -84,7 +83,7 @@ class TestHookHandlerEnable:
         self.mock_hook_is_enabled.return_value = False
         mock_hook_path_is_file.return_value = False
         mocked_open = mocker.mock_open()
-        mocker.patch("clint.cli.hook_handler.open", mocked_open)
+        mocker.patch("clint.hook_handler.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
         result = hook_handler.enable()
         assert result.return_code == 0
@@ -107,7 +106,7 @@ class TestHookHandlerEnable:
         self.mock_hook_is_enabled.return_value = False
         mock_hook_path_is_file.return_value = True
         mocked_open = mocker.mock_open()
-        mocker.patch("clint.cli.hook_handler.open", mocked_open)
+        mocker.patch("clint.hook_handler.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
         result = hook_handler.enable()
         assert result.return_code == 0
@@ -126,7 +125,7 @@ class TestHookHandlerEnable:
     "mock_hook_get_repo_root", "mock_hook_is_enabled", "mock_hook_os_remove"
 )
 class TestHookHandlerDisable:
-    """Tests for clint.cli.hook_handler.HookHandler.disable method."""
+    """Tests for clint.hook_handler.hook_handler.HookHandler.disable method."""
 
     mock_hook_is_enabled: MagicMock
     mock_hook_os_remove: MagicMock
@@ -150,7 +149,7 @@ class TestHookHandlerDisable:
         mocked_open = mocker.mock_open(
             read_data=f"{p_hook}\n{HookHandler.COMMAND}\n{n_hook}\n"
         )
-        mocker.patch("clint.cli.hook_handler.open", mocked_open)
+        mocker.patch("clint.hook_handler.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
         result = hook_handler.disable()
         assert result.return_code == 0
@@ -170,7 +169,7 @@ class TestHookHandlerDisable:
         self.mock_hook_os_remove.reset_mock()
         self.mock_hook_is_enabled.return_value = True
         mocked_open = mocker.mock_open(read_data=f"{HookHandler.COMMAND}\n")
-        mocker.patch("clint.cli.hook_handler.open", mocked_open)
+        mocker.patch("clint.hook_handler.hook_handler.open", mocked_open)
         hook_handler = HookHandler()
         result = hook_handler.disable()
         assert result.return_code == 0

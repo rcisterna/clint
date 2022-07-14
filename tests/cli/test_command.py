@@ -4,9 +4,8 @@ from unittest.mock import MagicMock, call
 import pytest
 
 from clint.cli.command import Command
-from clint.cli.exceptions import HookException
-from clint.cli.hook_handler import HookHandler
-from clint.cli.result import Result
+from clint.hook_handler import HookException, HookHandler
+from clint.result import Result
 
 
 @pytest.mark.usefixtures(

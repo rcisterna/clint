@@ -2,7 +2,7 @@
 # pylint: disable=too-many-arguments
 import pytest
 
-from clint.cli.result import Result
+from clint.result import Result
 from clint.validator import Paragraph
 
 from .conftest import INVALID_DATA, VALID_DATA

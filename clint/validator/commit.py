@@ -1,7 +1,7 @@
 """Commit validator."""
 from typing import List, Optional
 
-from ..cli.result import Result
+from ..result import Result
 from .paragraph import Paragraph
 from .subject import Subject
 

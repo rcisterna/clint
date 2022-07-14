@@ -1,11 +1,15 @@
-"""Tests suite for CLI classes."""
-import os
-from unittest.mock import DEFAULT, MagicMock
+"""Configuration for CLI tests."""
+from unittest.mock import DEFAULT
 
 import pytest
 from click.testing import CliRunner
 
 from clint import validator
+
+from ..hook_handler.conftest import (  # pylint: disable=unused-import
+    mock_hook_get_repo_root,
+    valid_path,
+)
 
 
 @pytest.fixture
@@ -20,10 +24,10 @@ def hook_handler_methods(
 ):  # pylint: disable=unused-argument,redefined-outer-name
     """Fixture to patch cli.hook_handler.HookHandler methods."""
     request.cls.mock_hook_enable = class_mocker.patch(
-        "clint.cli.hook_handler.HookHandler.enable"
+        "clint.hook_handler.HookHandler.enable"
     )
     request.cls.mock_hook_disable = class_mocker.patch(
-        "clint.cli.hook_handler.HookHandler.disable"
+        "clint.hook_handler.HookHandler.disable"
     )
 
 
@@ -85,66 +89,3 @@ def clean_commit_mocks(request: pytest.FixtureRequest):
 def mock_click_echo(request, class_mocker):
     """Fixture to patch clint.validator.Commit.validate method."""
     request.cls.mock_click_echo = class_mocker.patch("click.echo")
-
-
-@pytest.fixture(scope="class")
-def mock_hook_os_getcwd(request, class_mocker):
-    """Fixture to patch os.getcwd function at clint.cli.hook_handler."""
-    request.cls.mock_hook_os_getcwd = class_mocker.patch(
-        "clint.cli.hook_handler.os.getcwd"
-    )
-
-
-@pytest.fixture(scope="class")
-def mock_hook_os_chmod(request, class_mocker):
-    """Fixture to patch os.chmod function at clint.cli.hook_handler."""
-    request.cls.mock_hook_os_chmod = class_mocker.patch(
-        "clint.cli.hook_handler.os.chmod"
-    )
-
-
-@pytest.fixture(scope="class")
-def mock_hook_os_remove(request, class_mocker):
-    """Fixture to patch os.remove function at clint.cli.hook_handler."""
-    request.cls.mock_hook_os_remove = class_mocker.patch(
-        "clint.cli.hook_handler.os.remove"
-    )
-
-
-@pytest.fixture(scope="class")
-def mock_hook_get_repo_root(
-    request, class_mocker, valid_path
-):  # pylint: disable=unused-argument,redefined-outer-name
-    """Fixture for cli.hook_handler.HookHandler._get_repo_root method."""
-    request.cls.mock_hook_get_repo_root = class_mocker.patch(
-        "clint.cli.hook_handler.HookHandler._get_repo_root",
-        return_value=request.cls.valid_path,
-    )
-
-
-@pytest.fixture(scope="class")
-def mock_hook_is_enabled(request, class_mocker):
-    """Fixture for cli.hook_handler.HookHandler.is_enabled property."""
-    request.cls.mock_hook_is_enabled = class_mocker.PropertyMock
-    class_mocker.patch(
-        "clint.cli.hook_handler.HookHandler.is_enabled",
-        new_callable=request.cls.mock_hook_is_enabled,
-    )
-
-
-@pytest.fixture(scope="class")
-def valid_path(request):
-    """Fixture to get a valid (nonexistent) path."""
-    request.cls.valid_path = os.path.abspath(os.path.join(os.sep, "valid", "path"))
-
-
-@pytest.fixture
-def mock_hook_path_is_dir(mocker) -> MagicMock:
-    """Fixture to patch Path.is_dir method at clint.cli.hook_handler."""
-    return mocker.patch("clint.cli.hook_handler.Path.is_dir")
-
-
-@pytest.fixture
-def mock_hook_path_is_file(mocker) -> MagicMock:
-    """Fixture to patch Path.is_file method at clint.cli.hook_handler."""
-    return mocker.patch("clint.cli.hook_handler.Path.is_file")

@@ -1,5 +1,5 @@
 """CLint operation results."""
-from clint.cli.exceptions import ResultException
+from .exceptions import ResultException
 
 
 class Result:  # pylint: disable=too-few-public-methods
