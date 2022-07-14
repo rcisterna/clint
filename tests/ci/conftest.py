@@ -15,7 +15,7 @@ def metadata_current(request, pytestconfig) -> None:
     request.cls.metadata_current = metadata
 
 
-@pytest.fixture
+@pytest.fixture(scope="class")
 def metadata_production(request) -> None:
     """Fixture to get the CLint metadata as dictionary."""
     url = "https://raw.githubusercontent.com/rcisterna/clint/main/pyproject.toml"
