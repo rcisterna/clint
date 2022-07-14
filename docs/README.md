@@ -11,8 +11,9 @@ that the message is [Conventional Commits compliant](https://www.conventionalcom
 
 ## Technologies
 
-- [Python](https://www.python.org/) 3.7.2+
-- [Poetry](https://python-poetry.org/)
+- [python](https://www.python.org/), for its awesomeness. Supported versions: 3.7.2+
+- [poetry](https://python-poetry.org/), for packaging and dependency management
+- [change](https://github.com/adamtabrams/change), to help generate the changelog
 
 ## Installation
 

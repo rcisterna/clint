@@ -12,8 +12,9 @@ la [especificación de Conventional Commits](https://www.conventionalcommits.org
 
 ## Tecnologías
 
-- [Python](https://www.python.org/) 3.7.2+
-- [Poetry](https://python-poetry.org/)
+- [python](https://www.python.org/), por ser genial. Versiones soportadas: 3.7.2+
+- [poetry](https://python-poetry.org/), para el empaquetado y la administración de dependencias
+- [change](https://github.com/adamtabrams/change), para ayudar a generar el registro de cambios
 
 ## Instalación
 
