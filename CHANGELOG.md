@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2022-07-14
+### Fixed
+- Change metadata_production fixture to class scope.
+
+### Changed
+- Rename tests for changelog.
+- Rename workflows.
+- Change version to 0.4.1.
+- Add workflow for changelog validation.
+- Update test targets for makefile.
+- Add changelog tests marked for ci.
+- Delete unimportant entries for changelog.
+- Delete unreleased section for changelog.
+- Add changelog file.
+
 ## [0.4.0] - 2022-07-14
 ### Added
 - Add change_hook_handler method to runner class.
@@ -106,7 +121,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add readme title.
 - Config dependencies.
 
-[Unreleased]: https://github.com/rcisterna/clint/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/rcisterna/clint/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/rcisterna/clint/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/rcisterna/clint/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/rcisterna/clint/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/rcisterna/clint/compare/v0.3.0...v0.3.1
