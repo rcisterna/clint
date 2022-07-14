@@ -53,13 +53,17 @@ check-pylint:
 .PHONY: tests
 tests: ## Run test suite, except the CI tests
 	@poetry run coverage erase
-	@poetry run coverage run -m pytest -m "not ci_version" --strict-markers
+	@poetry run coverage run -m pytest -m "not ci_version and not ci_changelog" --strict-markers
 	@printf "\n$(FG_BLUE)Coverage report:$(FG_CLEAR)\n\n"
 	@poetry run coverage report -m
 
 .PHONY: tests-ci-version
 tests-ci-version: ## Run the CI version tests
 	@poetry run pytest -m ci_version
+
+.PHONY: tests-ci-changelog
+tests-ci-changelog: ## Run the CI changelog tests
+	@poetry run pytest -m ci_changelog
 
 .PHONY: isort
 isort:  ## Run isort over staged files
