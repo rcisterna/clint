@@ -5,11 +5,13 @@ import pytest
 from click.testing import CliRunner
 
 from clint import validator
+from clint.result import Result
 
 from ..hook_handler.conftest import (  # pylint: disable=unused-import
     mock_hook_get_repo_root,
     valid_path,
 )
+from ..result.conftest import get_result  # pylint: disable=unused-import
 
 
 @pytest.fixture
@@ -57,6 +59,15 @@ def mock_runner_validate(request, class_mocker):
     """Fixture to patch cli.runner.Runner.validate method."""
     request.cls.mock_runner_validate = class_mocker.patch(
         "clint.cli.runner.Runner.validate"
+    )
+
+
+@pytest.fixture(scope="class")
+def mock_runner_change_hook_handler(request, class_mocker):
+    """Fixture to patch cli.runner.Runner.change_hook_handler method."""
+    request.cls.mock_runner_change_hook_handler = class_mocker.patch(
+        "clint.cli.runner.Runner.change_hook_handler",
+        return_value=Result(operation="test", base_error_code=0),
     )
 
 
