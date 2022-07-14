@@ -67,4 +67,7 @@ omit = [
 ]
 
 [tool.pytest.ini_options]
-markers = ["ci_version: Run test related to semver on CI."]
+markers = [
+    "ci_version: Run test related to semver on CI.",
+    "ci_changelog: Run test related to changelog on CI.",
+]

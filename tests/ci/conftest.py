@@ -23,3 +23,9 @@ def metadata_production(request) -> None:
     with http.request("GET", url, preload_content=False) as response:
         pyproject_str = response.data.decode("utf8")
     request.cls.metadata_production = toml.loads(pyproject_str)
+
+
+@pytest.fixture(scope="class")
+def changelog_dir(request, pytestconfig) -> None:
+    """Fixture to get the CLint metadata as dictionary."""
+    request.cls.changelog_dir = os.path.join(pytestconfig.rootpath, "CHANGELOG.md")
