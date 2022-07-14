@@ -82,6 +82,10 @@ $ clint --disable-hook
 Disable hook: Hook disabled at /path/to/repo/.git/hooks/commit-msg
 ```
 
+## Registro de cambios
+
+Puedes ver el historial de cambios en el [changelog](../CHANGELOG.md) del proyecto.
+
 ## Estado del proyecto
 
 `CLint` está actualmente en estado **beta**, y está bajo desarrollo activo. El objetivo es alcanzar al menos
